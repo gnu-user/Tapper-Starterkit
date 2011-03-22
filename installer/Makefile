@@ -34,16 +34,26 @@
 TMP=/tmp
 
 DATATAPPER      = /data/tapper
-METAREPORTSDIR  = $(DATATAPPER)/live/metareports                       # meta-reports
-OUTPUTDIR       = $(DATATAPPER)/live/output                            # intermediate output
-IMAGESDIR       = $(DATATAPPER)/live/repository/images                 # OS images
-PACKAGESDIR     = $(DATATAPPER)/live/repository/packages               # packages
-TAPPERUTILSDIR  = $(DATATAPPER)/live/repository/packages/tapperutils   # Tapper clientlib
-TESTPROGRAMDIR  = $(DATATAPPER)/live/testprogram                       # test programs
-CONFIGSDIR      = $(DATATAPPER)/live/configs                           # auto-generated configs
-TFTPBOOTDIR     = $(DATATAPPER)/live/configs/tftpboot                  # grub configs via TFTP
-SYNCDIR         = $(DATATAPPER)/live/sync                              # sync'ing interdependent tests
-NFSROOTDIR      = $(DATATAPPER)/live/nfsroot                           # network bootable OS image
+# meta-reports
+METAREPORTSDIR  = $(DATATAPPER)/live/metareports
+# intermediate output
+OUTPUTDIR       = $(DATATAPPER)/live/output
+# OS images
+IMAGESDIR       = $(DATATAPPER)/live/repository/images
+# packages
+PACKAGESDIR     = $(DATATAPPER)/live/repository/packages
+# Tapper clientlib
+TAPPERUTILSDIR  = $(DATATAPPER)/live/repository/packages/tapperutils
+# test programs
+TESTPROGRAMDIR  = $(DATATAPPER)/live/testprogram
+# auto-generated configs
+CONFIGSDIR      = $(DATATAPPER)/live/configs
+# grub configs via TFTP
+TFTPBOOTDIR     = $(DATATAPPER)/live/configs/tftpboot
+# sync'ing interdependent tests
+SYNCDIR         = $(DATATAPPER)/live/sync
+# network bootable OS image
+NFSROOTDIR      = $(DATATAPPER)/live/nfsroot
 
 #DEBIANMIRROR=http://ftp.de.debian.org/debian/
 DEBIANMIRROR=http://alzey/debian/

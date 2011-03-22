@@ -1,0 +1,4 @@
+#! /bin/bash
+
+cpan Tapper::Installer
+cpan Tapper::PRC

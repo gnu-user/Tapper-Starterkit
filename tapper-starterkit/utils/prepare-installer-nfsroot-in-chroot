@@ -1,0 +1,57 @@
+#! /bin/bash
+
+# deactivate network interfaces coming up in NFS root
+insserv -r ifupdown
+
+# setup locales
+apt-get --yes --allow-unauthenticated install locales
+echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+/usr/sbin/locale-gen
+
+# prepare example files
+cd /tmp
+tar xzf tapper-starterkit.tgz
+
+# some utils
+apt-get --yes --allow-unauthenticated install curl
+apt-get --yes --allow-unauthenticated install make
+apt-get --yes --allow-unauthenticated install gcc
+apt-get --yes --allow-unauthenticated install perl-modules
+
+# Install Perl
+PERLVERSION=5.12.3
+export PERLBREW_ROOT=/opt/tapper/perl
+mkdir -p $PERLBREW_ROOT
+curl -LO http://xrl.us/perlbrew
+chmod +x perlbrew
+./perlbrew install
+/opt/tapper/perl/bin/perlbrew init
+echo "source /opt/tapper/perl/etc/bashrc" >> $HOME/.bashrc
+source /opt/tapper/perl/etc/bashrc
+perlbrew install perl-${PERLVERSION}
+perlbrew switch perl-${PERLVERSION}
+
+# CPAN config
+cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERLVERSION}/lib/${PERLVERSION}/CPAN/Config.pm
+export PERL_AUTOINSTALL="--defaultdeps"
+echo "reload index" | cpan
+
+# Install Tapper::Installer
+cpan Tapper::Installer
+cp /opt/tapper/perl/perls/current/bin/tapper-installer-client.pl /etc/init.d/tapper
+chmod +x /etc/init.d/tapper
+insserv tapper
+
+# create the required files and directories
+
+mkdir -p /mnt/target/
+mkdir -p /mnt/guests
+mkdir -p /data/tapper
+
+# Since /etc/tapper is not writable on a readonly NFS we need to
+# symlink it into tmpfs
+ln -sf /tmp/tapper /etc/tapper
+
+# copy basic Log4Perl config
+cp /tmp/tapper-starterkit/etc/log4perl.cf /etc/log4perl.cf
+

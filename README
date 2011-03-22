@@ -4,10 +4,13 @@ Tapper-Starterkit
 A starter kit for setting up a Tapper instance,
 based on Debian/Squeeze.
 
- - download installer/Makefile
+ - download frontend makefile:
+   http://xrl.us/tapperstarterkit
+
  - type "make it so"
 
-About Tapper 
+
+About Tapper
 ============
 
 Tapper is an infrastructure for all aspects of testing 

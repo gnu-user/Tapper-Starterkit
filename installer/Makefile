@@ -390,9 +390,11 @@ baseimage64file: $(BASEIMAGE64FILE)
 
 $(BASEIMAGE64FILE): baseimage workingdirs
 #
-# Pack baseimage
+# Pack baseimage64
 #
 	@echo "########## Pack baseimage64"
+	-umount $(BASEIMAGE64CHROOT)/proc
+	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	cd $(BASEIMAGE64CHROOT) ; tar -czf $(BASEIMAGE64FILE) .
 
 nfsrootdir: $(DATATAPPER)/live/nfsroot/etc/log4perl.cf

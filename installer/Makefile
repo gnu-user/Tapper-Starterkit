@@ -149,7 +149,9 @@ dependencies:
 # *
 # ==============================================================
 
-installernfsroot: dependencies
+installernfsroot: $(INSTALLERNFSROOT)/etc/log4perl.cf dependencies
+
+$(INSTALLERNFSROOT)/etc/log4perl.cf:
 	@echo "##################################################################"
 	@echo "# "
 	@echo "# "
@@ -239,7 +241,9 @@ installernfsroot: dependencies
 # *
 # ==============================================================
 
-baseimage: dependencies
+baseimage64chroot: $(BASEIMAGE64CHROOT)/etc/log4perl.cf dependencies
+
+$(BASEIMAGE64CHROOT)/etc/log4perl.cf:
 	@echo "########################################################"
 	@echo "# "
 	@echo "#         ,****************."

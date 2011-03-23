@@ -437,7 +437,7 @@ $(DATATAPPER)/live/nfsroot/etc/log4perl.cfg: installernfsroot workingdirs
 # Prepare network boot OS
 #
 	@echo "########## Prepare network boot OS"
-	rsync -ax $(INSTALLERCHROOT)/ $(NFSROOTDIR)/
+	rsync -ax --delete $(INSTALLERCHROOT)/ $(NFSROOTDIR)/
 
 optperl:
 #

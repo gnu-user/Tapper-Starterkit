@@ -126,8 +126,10 @@ all:
 	@echo "                           (keeps the final /data/tapper/... intact)"
 
 clean:
+	-umount $(INSTALLERCHROOT)/sys
 	-umount $(INSTALLERCHROOT)/proc
 	-umount $(INSTALLERCHROOT)/dev/pts
+	-umount $(BASEIMAGE64CHROOT)/sys
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	rm -fr $(CLEANFILES)
@@ -187,6 +189,7 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 ### prepare subdirs
 #
 	@echo "########## prepare subdirs"
+	-umount $(INSTALLERCHROOT)/sys
 	-umount $(INSTALLERCHROOT)/proc
 	-umount $(INSTALLERCHROOT)/dev/pts
 	rm -fr $(INSTALLERCHROOT)
@@ -422,6 +425,7 @@ $(BASEIMAGE64FILE): baseimage64chroot workingdirs
 # Pack baseimage64
 #
 	@echo "########## Pack baseimage64"
+	-umount $(BASEIMAGE64CHROOT)/sys
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	cd $(BASEIMAGE64CHROOT) ; tar -czf $(BASEIMAGE64FILE) .

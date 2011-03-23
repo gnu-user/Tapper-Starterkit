@@ -4,8 +4,8 @@
 insserv -r ifupdown
 
 # deactivate udev
-insserv -r udev-mtab
-insserv -r udev
+#insserv -r udev-mtab
+#insserv -r udev
 
 # setup locales
 apt-get --yes --allow-unauthenticated install locales
@@ -62,9 +62,10 @@ mkdir -p /mnt/target/
 mkdir -p /mnt/guests
 mkdir -p /data/tapper
 
-# Since /etc/tapper is not writable on a readonly NFS we need to
-# symlink it into tmpfs
-ln -sf /tmp/tapper /etc/tapper
+# Since /etc/ is not writable on a readonly NFS we need to
+# symlink some files into tmpfs
+ln -sf /tmp/tapper  /etc/tapper
+ln -sf /tmp/adjtime /etc/adjtime
 
 # Link mtab to proc.
 # The content is the same and we can not write to mtab on a readonly NFS.

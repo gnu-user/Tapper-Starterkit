@@ -430,9 +430,9 @@ $(BASEIMAGE64FILE): baseimage64chroot workingdirs
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	cd $(BASEIMAGE64CHROOT) ; tar -czf $(BASEIMAGE64FILE) .
 
-nfsrootdir: $(DATATAPPER)/live/nfsroot/etc/log4perl.cfg
+nfsrootdir: $(NFSROOTDIR)/etc/log4perl.cfg
 
-$(DATATAPPER)/live/nfsroot/etc/log4perl.cfg: installernfsroot workingdirs
+$(NFSROOTDIR)/etc/log4perl.cfg: installernfsroot workingdirs
 #
 # Prepare network boot OS
 #

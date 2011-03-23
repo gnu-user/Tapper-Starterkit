@@ -149,9 +149,9 @@ dependencies:
 # *
 # ==============================================================
 
-installernfsroot: $(INSTALLERNFSROOT)/etc/log4perl.cf dependencies
+installernfsroot: $(INSTALLERNFSROOT)/etc/log4perl.cfg dependencies
 
-$(INSTALLERNFSROOT)/etc/log4perl.cf:
+$(INSTALLERNFSROOT)/etc/log4perl.cfg:
 	@echo "##################################################################"
 	@echo "# "
 	@echo "# "
@@ -241,9 +241,9 @@ $(INSTALLERNFSROOT)/etc/log4perl.cf:
 # *
 # ==============================================================
 
-baseimage64chroot: $(BASEIMAGE64CHROOT)/etc/log4perl.cf dependencies
+baseimage64chroot: $(BASEIMAGE64CHROOT)/etc/log4perl.cfg dependencies
 
-$(BASEIMAGE64CHROOT)/etc/log4perl.cf:
+$(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 	@echo "########################################################"
 	@echo "# "
 	@echo "#         ,****************."
@@ -397,9 +397,9 @@ $(BASEIMAGE64FILE): baseimage64chroot workingdirs
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	cd $(BASEIMAGE64CHROOT) ; tar -czf $(BASEIMAGE64FILE) .
 
-nfsrootdir: $(DATATAPPER)/live/nfsroot/etc/log4perl.cf
+nfsrootdir: $(DATATAPPER)/live/nfsroot/etc/log4perl.cfg
 
-$(DATATAPPER)/live/nfsroot/etc/log4perl.cf: installernfsroot workingdirs
+$(DATATAPPER)/live/nfsroot/etc/log4perl.cfg: installernfsroot workingdirs
 #
 # Prepare network boot OS
 #

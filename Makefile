@@ -1,5 +1,5 @@
 STARTERKIT=tapper-starterkit
-EXAMPLEFILES = $(STARTERKIT)/etc/log4perl.cf \
+EXAMPLEFILES = $(STARTERKIT)/etc/log4perl.cfg \
                $(STARTERKIT)/etc/apache2/conf.d/tapper_reports_web.conf \
                $(STARTERKIT)/etc/init.d/tapper_reports_receiver_daemon \
                $(STARTERKIT)/etc/init.d/tapper_reports_api_daemon \

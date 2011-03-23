@@ -53,5 +53,5 @@ mkdir -p /data/tapper
 ln -sf /tmp/tapper /etc/tapper
 
 # copy basic Log4Perl config
-cp /tmp/tapper-starterkit/etc/log4perl.cf /etc/log4perl.cf
+cp /tmp/tapper-starterkit/etc/log4perl.cfg /etc/log4perl.cfg
 

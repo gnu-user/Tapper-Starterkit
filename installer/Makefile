@@ -388,7 +388,7 @@ workingdirs:
 
 baseimage64file: $(BASEIMAGE64FILE)
 
-$(BASEIMAGE64FILE): baseimage workingdirs
+$(BASEIMAGE64FILE): baseimage64chroot workingdirs
 #
 # Pack baseimage64
 #

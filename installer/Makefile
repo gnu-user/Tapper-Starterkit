@@ -92,6 +92,7 @@ TESTMACHINE2=sarahconnor
 ### if version changed, also change it in the *CHROOTPREPARE scripts
 PERLVERSION=5.12.3
 DISTROPREFS=http://cpansearch.perl.org/src/ANDK/CPAN-1.9600/distroprefs/
+DISTROPREFSDIR=/root/.cpan/prefs
 
 ### starter kit
 STARTERKITBASENAME=tapper-starterkit
@@ -100,8 +101,7 @@ STARTERKITURL=http://amd64.org/pub/tapper/$(STARTERKIT)
 STARTERKITDIR=$(TMP)/$(STARTERKITBASENAME)
 
 ### generated files to clean away
-CLEANFILES = $(CLIENTPKG64FILE)
-
+CLEANFILES = $(CLIENTPKG64FILE) $(TMP)/$(STARTERKIT) $(STARTERKITDIR) $(DISTROPREFSDIR)
 
 # default target
 all:
@@ -127,16 +127,22 @@ all:
 # *
 # ==============================================================
 
-dependencies:
+distroprefs: $(DISTROPREFSDIR)/00.README
+
+$(DISTROPREFSDIR)/00.README:
+	mkdir -p $(DISTROPREFSDIR)/
+	wget -r --no-parent -nd -N -P $(DISTROPREFSDIR)/ $(DISTROPREFS)
+
+dependencies: distroprefs $(STARTERKITDIR)/etc/log4perl.cfg
+
+$(STARTERKITDIR)/etc/log4perl.cfg:
 	@echo "########## install some build dependencies"
 	apt-get install debootstrap
 	apt-get install curl
 	apt-get install wget
 	apt-get install rsync
-	curl -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)
+	curl -z$(TMP)/$(STARTERKIT) -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)
 	cd $(TMP) ; tar xzf $(STARTERKIT)
-	mkdir -p /root/.cpan/prefs/
-	wget -r --no-parent -nd -P /root/.cpan/prefs/ $(DISTROPREFS)
 
 
 # ==============================================================
@@ -192,8 +198,8 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 ### Perl/CPAN setup
 #
 	@echo "########## Perl/CPAN setup"
-	mkdir -p $(INSTALLERCHROOT)/root/.cpan/prefs/
-	rsync -r /root/.cpan/prefs/ $(INSTALLERCHROOT)/root/.cpan/prefs/
+	mkdir -p $(INSTALLERCHROOT)/$(DISTROPREFSDIR)/
+	rsync -r $(DISTROPREFSDIR)/ $(INSTALLERCHROOT)/$(DISTROPREFSDIR)/
 #
 ### enable console login
 #
@@ -283,8 +289,8 @@ $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 ### Perl/CPAN setup
 #
 	@echo "########## Perl/CPAN setup"
-	mkdir -p $(BASEIMAGE64CHROOT)/root/.cpan/prefs/
-	rsync -r /root/.cpan/prefs/ $(BASEIMAGE64CHROOT)/root/.cpan/prefs/
+	mkdir -p $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/
+	rsync -r $(DISTROPREFSDIR)/ $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/
 #
 ### enable console login
 #
@@ -370,7 +376,16 @@ intro:
 	@echo "########################################################"
 
 
-workingdirs:
+workingdirs: $(METAREPORTSDIR) \
+             $(OUTPUTDIR) \
+             $(IMAGESDIR) \
+             $(PACKAGESDIR) \
+             $(TAPPERUTILSDIR) \
+             $(TESTPROGRAMDIR) \
+             $(CONFIGSDIR) \
+             $(TFTPBOOTDIR) \
+             $(SYNCDIR) \
+             $(NFSROOTDIR)
 #
 #  Prepare central workdir that is later exported via NFS
 #

@@ -1,5 +1,8 @@
 #! /bin/bash
 
+# for parallel builds
+CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
+
 # setup locales
 apt-get --yes --allow-unauthenticated install locales
 echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
@@ -31,12 +34,13 @@ chmod +x perlbrew
 /opt/tapper/perl/bin/perlbrew init
 echo "source /opt/tapper/perl/etc/bashrc" >> $HOME/.bashrc
 source /opt/tapper/perl/etc/bashrc
-perlbrew install perl-${PERLVERSION}
+perlbrew -j ${CPUCOUNT} install perl-${PERLVERSION}
 perlbrew switch perl-${PERLVERSION}
 
 # CPAN config
 cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERLVERSION}/lib/${PERLVERSION}/CPAN/Config.pm
 export PERL_AUTOINSTALL="--defaultdeps"
+export TEST_JOBS=${CPUCOUNT}
 echo "reload index" | cpan
 
 # Install Tapper::Installer

@@ -1,4 +1,8 @@
 #! /bin/bash
 
+# for parallel builds
+CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
+
+export TEST_JOBS=${CPUCOUNT}
 cpan Tapper::Installer
 cpan Tapper::PRC

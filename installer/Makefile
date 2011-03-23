@@ -107,6 +107,8 @@ CLEANFILES = $(TMP)/$(STARTERKIT) \
              $(INSTALLERCHROOT) \
              $(BASEIMAGE64CHROOT) 
 
+CPUCOUNT = `cat /proc/cpuinfo | grep vendor_id|wc -l`
+
 # default target
 all:
 	@echo "Try "
@@ -133,6 +135,11 @@ clean:
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	rm -fr $(CLEANFILES)
+
+experiment:
+	echo 'CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`' >> foo.sh
+	echo 'export TEST_JOBS=$$CPUCOUNT' >> foo.sh
+	echo 'echo $$TEST_JOBS' >> foo.sh
 
 # ==============================================================
 # *
@@ -206,6 +213,8 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 #
 	@echo "########## set shell environment"
 	echo 'PS1="CHROOT-Tapper-NFS-Installer:\w# "'  >> $(INSTALLERCHROOT)/root/.bashrc
+	echo 'CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`' >> $(INSTALLERCHROOT)/root/.bashrc
+	echo 'export TEST_JOBS=$$CPUCOUNT'             >> $(INSTALLERCHROOT)/root/.bashrc
 	echo 'export PERL_AUTOINSTALL="--defaultdeps"' >> $(INSTALLERCHROOT)/root/.bashrc
 	echo 'export TWMC_TEST_PORT=9876'              >> $(INSTALLERCHROOT)/root/.bashrc
 	echo 'alias dir="ls -Flart --color"'           >> $(INSTALLERCHROOT)/root/.bashrc
@@ -295,6 +304,8 @@ $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 #
 	@echo "########## set shell environment"
 	echo 'PS1="CHROOT-Tapper-BasImage:\w# "'       >> $(BASEIMAGE64CHROOT)/root/.bashrc
+	echo 'CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`' >> $(BASEIMAGE64CHROOT)/root/.bashrc
+	echo 'export TEST_JOBS=$$CPUCOUNT'             >> $(BASEIMAGE64CHROOT)/root/.bashrc
 	echo 'export PERL_AUTOINSTALL="--defaultdeps"' >> $(BASEIMAGE64CHROOT)/root/.bashrc
 	echo 'export PERLBREW_ROOT=/opt/tapper/perl'   >> $(BASEIMAGE64CHROOT)/root/.bashrc
 	echo 'export TWMC_TEST_PORT=9876'              >> $(BASEIMAGE64CHROOT)/root/.bashrc
@@ -452,7 +463,7 @@ optperl:
 	/opt/tapper/perl/bin/perlbrew init ; \
 	echo "source /opt/tapper/perl/etc/bashrc" >> $$HOME/.bashrc ; \
 	source /opt/tapper/perl/etc/bashrc ; \
-	perlbrew install perl-$(PERLVERSION) ; \
+	perlbrew -j $(CPUCOUNT) install perl-$(PERLVERSION) ; \
 	perlbrew switch perl-$(PERLVERSION)
 #
 # CPAN config

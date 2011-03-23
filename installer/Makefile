@@ -100,8 +100,15 @@ STARTERKIT=$(STARTERKITBASENAME).tgz
 STARTERKITURL=http://amd64.org/pub/tapper/$(STARTERKIT)
 STARTERKITDIR=$(TMP)/$(STARTERKITBASENAME)
 
-### generated files to clean away
-CLEANFILES = $(CLIENTPKG64FILE) $(TMP)/$(STARTERKIT) $(STARTERKITDIR) $(DISTROPREFSDIR)
+### intermediate build files, not the final results
+CLEANFILES = $(TMP)/$(STARTERKIT) \
+             $(STARTERKITDIR) \
+             $(DISTROPREFSDIR) \
+             $(INSTALLERCHROOT) \
+             $(BASEIMAGE64CHROOT) 
+
+clean:
+	rm -fr $(CLEANFILES)
 
 # default target
 all:

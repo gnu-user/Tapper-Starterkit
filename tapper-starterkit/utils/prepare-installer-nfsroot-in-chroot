@@ -23,6 +23,7 @@ apt-get --yes --allow-unauthenticated install gcc
 apt-get --yes --allow-unauthenticated install less
 apt-get --yes --allow-unauthenticated install perl-modules
 apt-get --yes --allow-unauthenticated install openssh-server
+apt-get --yes --allow-unauthenticated install nfs-common
 
 # set default password
 echo "root:tapper" | chpasswd

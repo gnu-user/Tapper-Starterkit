@@ -17,6 +17,7 @@ cd /tmp
 tar xzf tapper-starterkit.tgz
 
 # some utils
+apt-get --yes --allow-unauthenticated install patch
 apt-get --yes --allow-unauthenticated install curl
 apt-get --yes --allow-unauthenticated install make
 apt-get --yes --allow-unauthenticated install gcc
@@ -24,6 +25,9 @@ apt-get --yes --allow-unauthenticated install less
 apt-get --yes --allow-unauthenticated install perl-modules
 apt-get --yes --allow-unauthenticated install openssh-server
 apt-get --yes --allow-unauthenticated install nfs-common
+
+# Bug with nfs-common
+/var/lib/dpkg/info/nfs-common.postinst
 
 # set default password
 echo "root:tapper" | chpasswd

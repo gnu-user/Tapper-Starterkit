@@ -20,7 +20,12 @@ tar xzf tapper-starterkit.tgz
 apt-get --yes --allow-unauthenticated install curl
 apt-get --yes --allow-unauthenticated install make
 apt-get --yes --allow-unauthenticated install gcc
+apt-get --yes --allow-unauthenticated install less
 apt-get --yes --allow-unauthenticated install perl-modules
+apt-get --yes --allow-unauthenticated install openssh-server
+
+# set default password
+echo "root:tapper" | chpasswd
 
 # Install Perl
 PERLVERSION=5.12.3
@@ -63,3 +68,14 @@ ln -sf /proc/mounts /etc/mtab
 # copy basic Log4Perl config
 cp /tmp/tapper-starterkit/etc/log4perl.cfg /etc/log4perl.cfg
 
+# Create devices needed for login
+mknod /dev/ttyS0 c 4 64
+mknod /dev/ttyS1 c 4 65
+
+# Disable local logins to avoid these warnings:
+# 'INIT: Id "4" respawning too fast: disabled for 5 minutes'
+cd /etc/
+patch -p1 -N < /tmp/tapper-starterkit/misc/disable_useless_consoles.patch
+
+# don't set a hostname to trigger getting it dynamically on boot
+rm /etc/hostname

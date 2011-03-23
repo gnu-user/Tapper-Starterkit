@@ -107,22 +107,30 @@ CLEANFILES = $(TMP)/$(STARTERKIT) \
              $(INSTALLERCHROOT) \
              $(BASEIMAGE64CHROOT) 
 
-clean:
-	rm -fr $(CLEANFILES)
-
 # default target
 all:
 	@echo "Try "
+	@echo ""
 	@echo "  make installernfsroot -- a base OS subdir bootable from NFS for Tapper::Installer"
 	@echo "  make baseimage64      -- a Debian imagefile used as base system for tests"
-	@echo "  make clientpkg64      -- a Debian imagefile used as base system for tests"
+	@echo "  make clientpkg64      -- the Tapper client package for tests"
 	@echo "  make tapperhost       -- everything to run a central Tapper control host, contains"
 	@echo "                              . make installernfsroot"
 	@echo "                              . make baseimage64"
 	@echo "                              . make clientpkg64"
 	@echo "                           plus local setup"
+	@echo ""
 	@echo "  make it so            -- same as 'make tapperhost'"
+	@echo ""
+	@echo "  make clean            -- remove intermediate build files+chroots"
+	@echo "                           (keeps the final /data/tapper/... intact)"
 
+clean:
+	-umount $(INSTALLERCHROOT)/proc
+	-umount $(INSTALLERCHROOT)/dev/pts
+	-umount $(BASEIMAGE64CHROOT)/proc
+	-umount $(BASEIMAGE64CHROOT)/dev/pts
+	rm -fr $(CLEANFILES)
 
 # ==============================================================
 # *
@@ -178,7 +186,6 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 ### prepare subdirs
 #
 	@echo "########## prepare subdirs"
-	-umount $(INSTALLERCHROOT)/sys
 	-umount $(INSTALLERCHROOT)/proc
 	-umount $(INSTALLERCHROOT)/dev/pts
 	rm -fr $(INSTALLERCHROOT)
@@ -268,7 +275,6 @@ $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 ### prepare subdirs
 #
 	@echo "########## prepare subdirs"
-	-umount $(BASEIMAGE64CHROOT)/sys
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	rm -fr $(BASEIMAGE64CHROOT)

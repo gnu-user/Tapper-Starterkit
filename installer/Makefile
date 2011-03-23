@@ -152,10 +152,11 @@ dependencies: distroprefs $(STARTERKITDIR)/etc/log4perl.cfg
 
 $(STARTERKITDIR)/etc/log4perl.cfg:
 	@echo "########## install some build dependencies"
-	apt-get install debootstrap
-	apt-get install curl
-	apt-get install wget
-	apt-get install rsync
+	apt-get update
+	apt-get install --yes debootstrap
+	apt-get install --yes curl
+	apt-get install --yes wget
+	apt-get install --yes rsync
 	curl -z$(TMP)/$(STARTERKIT) -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)
 	cd $(TMP) ; tar xzf $(STARTERKIT)
 

@@ -429,9 +429,9 @@ workingdirs: $(METAREPORTSDIR) \
 	mkdir -p $(SYNCDIR)
 	mkdir -p $(NFSROOTDIR)
 
-baseimage64file: $(BASEIMAGE64FILE)
+baseimage64file: $(BASEIMAGE64FILE) baseimage64chroot workingdirs
 
-$(BASEIMAGE64FILE): baseimage64chroot workingdirs
+$(BASEIMAGE64FILE):
 #
 # Pack baseimage64
 #

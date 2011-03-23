@@ -7,6 +7,7 @@ EXAMPLEFILES = $(STARTERKIT)/etc/log4perl.cfg \
                $(STARTERKIT)/etc/tapper.cfg \
                $(STARTERKIT)/misc/CPAN-Config.pm \
                $(STARTERKIT)/misc/starterkit.tap \
+               $(STARTERKIT)/misc/disable_useless_consoles.patch \
                $(STARTERKIT)/utils/opt-tapper-package.sh \
                $(STARTERKIT)/utils/prepare-installer-nfsroot-in-chroot \
                $(STARTERKIT)/utils/prepare-baseimage64-in-chroot \

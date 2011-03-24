@@ -1,8 +1,9 @@
 #! /bin/bash
 
 # for parallel builds
-CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
-
+export CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
+export PERL_AUTOINSTALL="--defaultdeps"
 export TEST_JOBS=${CPUCOUNT}
-cpan Tapper::Installer
-cpan Tapper::PRC
+export CPAN=/opt/tapper/perl/perls/current/bin/cpan
+$CPAN Tapper::Installer
+$CPAN Tapper::PRC

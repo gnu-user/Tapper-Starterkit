@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # for parallel builds
-CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
+export CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
 
 # deactivate network interfaces coming up in NFS root
 insserv -r ifupdown
@@ -28,16 +28,16 @@ apt-get --yes --allow-unauthenticated install less
 apt-get --yes --allow-unauthenticated install perl-modules
 apt-get --yes --allow-unauthenticated install openssh-server
 apt-get --yes --allow-unauthenticated install nfs-common
-### XXX TODO ### apt-get --yes --allow-unauthenticated install grub-pc
-
 # Bug with nfs-common
 /var/lib/dpkg/info/nfs-common.postinst
+### XXX TODO ### apt-get --yes --allow-unauthenticated install grub-pc
+
 
 # set default password
 echo "root:tapper" | chpasswd
 
 # Install Perl
-PERLVERSION=5.12.3
+export PERLVERSION=5.12.3
 export PERLBREW_ROOT=/opt/tapper/perl
 mkdir -p $PERLBREW_ROOT
 curl -LO http://xrl.us/perlbrew
@@ -50,13 +50,18 @@ perlbrew -j ${CPUCOUNT} install perl-${PERLVERSION}
 perlbrew switch perl-${PERLVERSION}
 
 # CPAN config
+echo cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERLVERSION}/lib/${PERLVERSION}/CPAN/Config.pm
 cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERLVERSION}/lib/${PERLVERSION}/CPAN/Config.pm
 export PERL_AUTOINSTALL="--defaultdeps"
 export TEST_JOBS=${CPUCOUNT}
-echo "reload index" | cpan
+export CPAN=/opt/tapper/perl/perls/current/bin/cpan
+
+echo "INVESTIGATE HERE!" ; exit 1
+
+echo "reload index" | $CPAN
 
 # Install Tapper::Installer
-cpan Tapper::Installer
+$CPAN Tapper::Installer
 cp /opt/tapper/perl/perls/current/bin/tapper-installer-client.pl /etc/init.d/tapper
 chmod +x /etc/init.d/tapper
 insserv tapper

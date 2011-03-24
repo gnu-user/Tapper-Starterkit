@@ -8,10 +8,10 @@ EXAMPLEFILES = $(STARTERKIT)/etc/log4perl.cfg \
                $(STARTERKIT)/misc/CPAN-Config.pm \
                $(STARTERKIT)/misc/starterkit.tap \
                $(STARTERKIT)/misc/disable_useless_consoles.patch \
-               $(STARTERKIT)/utils/opt-tapper-package.sh \
                $(STARTERKIT)/utils/prepare-installer-nfsroot-in-chroot \
                $(STARTERKIT)/utils/prepare-baseimage64-in-chroot \
                $(STARTERKIT)/utils/prepare-clientpkg64-in-chroot \
+               $(STARTERKIT)/utils/prepare-optperl \
                $(STARTERKIT)/tftpboot/bzImage
 
 CLEANFILES = $(STARTERKIT).tgz

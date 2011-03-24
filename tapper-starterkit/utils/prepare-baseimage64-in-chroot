@@ -27,6 +27,7 @@ apt-get --yes --allow-unauthenticated install nfs-common
 echo "root:tapper" | chpasswd
 
 # Install Perl
+cd /tmp
 export PERLVERSION=5.12.3
 export PERLBREW_ROOT=/opt/tapper/perl
 mkdir -p $PERLBREW_ROOT
@@ -34,9 +35,9 @@ curl -LO http://xrl.us/perlbrew
 chmod +x perlbrew
 ./perlbrew install
 /opt/tapper/perl/bin/perlbrew init
-echo "source /opt/tapper/perl/etc/bashrc" >> $HOME/.bashrc
-source /opt/tapper/perl/etc/bashrc
-perlbrew -j ${CPUCOUNT} install perl-${PERLVERSION}
+echo ". /opt/tapper/perl/etc/bashrc" >> $HOME/.bashrc
+. /opt/tapper/perl/etc/bashrc
+perlbrew install -j ${CPUCOUNT} perl-${PERLVERSION}
 perlbrew switch perl-${PERLVERSION}
 
 # CPAN config

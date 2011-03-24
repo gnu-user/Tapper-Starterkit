@@ -93,6 +93,7 @@ TESTMACHINE2=sarahconnor
 PERLVERSION=5.12.3
 DISTROPREFS=http://cpansearch.perl.org/src/ANDK/CPAN-1.9600/distroprefs/
 DISTROPREFSDIR=/root/.cpan/prefs
+CPAN=/opt/tapper/perl/perls/current/bin/cpan
 
 ### starter kit
 STARTERKITBASENAME=tapper-starterkit
@@ -499,13 +500,13 @@ perlpkgs:
 # Prepare CPAN libs
 #
 	@echo "########## Prepare CPAN libs"
-	PERL_AUTOINSTALL="--defaultdeps" cpan DBD::mysql
-	PERL_AUTOINSTALL="--defaultdeps" cpan DBD::SQLite
-	PERL_AUTOINSTALL="--defaultdeps" cpan Tapper::Schema
-	PERL_AUTOINSTALL="--defaultdeps" cpan Tapper::CLI
-	PERL_AUTOINSTALL="--defaultdeps" cpan Tapper::Reports::Web
-	PERL_AUTOINSTALL="--defaultdeps" cpan Tapper::Reports::Receiver
-	PERL_AUTOINSTALL="--defaultdeps" cpan Tapper::Reports::API
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::mysql
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::SQLite
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Schema
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::CLI
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::Web
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::Receiver
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::API
 
 databases:
 #

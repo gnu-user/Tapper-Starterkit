@@ -165,6 +165,9 @@ $(STARTERKITDIR)/etc/log4perl.cfg:
 	apt-get install --yes curl
 	apt-get install --yes wget
 	apt-get install --yes rsync
+	apt-get install --yes patch
+	apt-get install --yes gcc
+	apt-get install --yes perl-modules
 	curl -z$(TMP)/$(STARTERKIT) -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)
 	cd $(TMP) ; tar xzf $(STARTERKIT)
 

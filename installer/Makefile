@@ -180,7 +180,7 @@ $(STARTERKITDIR)/etc/log4perl.cfg:
 # *
 # ==============================================================
 
-installernfsroot: $(INSTALLERNFSROOT)/etc/log4perl.cfg dependencies
+installernfsroot: dependencies $(INSTALLERNFSROOT)/etc/log4perl.cfg
 
 $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 	@echo "##################################################################"

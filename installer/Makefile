@@ -113,18 +113,21 @@ CPUCOUNT = `cat /proc/cpuinfo | grep vendor_id|wc -l`
 # default target
 all:
 	@echo "Try "
-	@echo ""
 	@echo "  make installernfsroot -- a base OS subdir bootable from NFS for Tapper::Installer"
 	@echo "  make baseimage64      -- a Debian imagefile used as base system for tests"
 	@echo "  make clientpkg64      -- the Tapper client package for tests"
-	@echo "  make tapperhost       -- everything to run a central Tapper control host, contains"
+	@echo "  make localsetup       -- most stuff to run a central Tapper host"
+	@echo "                           but WITHOUT automation. Contains:"
+	@echo "                              . reports receiver"
+	@echo "                              . reports api"
+	@echo "                              . web frontend"
+	@echo "  make tapperhost       -- everything to run a central Tapper control host"
+	@echo "                           INCLUSIVE automation. Contains:"
 	@echo "                              . make installernfsroot"
 	@echo "                              . make baseimage64"
 	@echo "                              . make clientpkg64"
-	@echo "                           plus local setup"
-	@echo ""
+	@echo "                              . make localsetup"
 	@echo "  make it so            -- same as 'make tapperhost'"
-	@echo ""
 	@echo "  make clean            -- remove intermediate build files+chroots"
 	@echo "                           (keeps the final /data/tapper/... intact)"
 
@@ -136,11 +139,6 @@ clean:
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	rm -fr $(CLEANFILES)
-
-experiment:
-	echo 'CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`' >> foo.sh
-	echo 'export TEST_JOBS=$$CPUCOUNT' >> foo.sh
-	echo 'echo $$TEST_JOBS' >> foo.sh
 
 # ==============================================================
 # *

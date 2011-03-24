@@ -274,7 +274,7 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 # *
 # ==============================================================
 
-baseimage64chroot: $(BASEIMAGE64CHROOT)/etc/log4perl.cfg dependencies
+baseimage64chroot: dependencies $(BASEIMAGE64CHROOT)/etc/log4perl.cfg
 
 $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 	@echo "########################################################"
@@ -429,7 +429,7 @@ workingdirs: $(METAREPORTSDIR) \
 	mkdir -p $(SYNCDIR)
 	mkdir -p $(NFSROOTDIR)
 
-baseimage64file: $(BASEIMAGE64FILE) baseimage64chroot workingdirs
+baseimage64file: baseimage64chroot workingdirs $(BASEIMAGE64FILE)
 
 $(BASEIMAGE64FILE):
 #

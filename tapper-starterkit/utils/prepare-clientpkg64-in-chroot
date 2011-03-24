@@ -7,3 +7,4 @@ export TEST_JOBS=${CPUCOUNT}
 export CPAN=/opt/tapper/perl/perls/current/bin/cpan
 $CPAN Tapper::Installer
 $CPAN Tapper::PRC
+$CPAN Tapper::TestSuite::AutoTest

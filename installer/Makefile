@@ -406,7 +406,7 @@ intro:
 	@echo "########################################################"
 
 
-workingdirs: $(METAREPORTSDIR) \
+WORKDIRS := $(METAREPORTSDIR) \
              $(OUTPUTDIR) \
              $(IMAGESDIR) \
              $(PACKAGESDIR) \
@@ -416,20 +416,11 @@ workingdirs: $(METAREPORTSDIR) \
              $(TFTPBOOTDIR) \
              $(SYNCDIR) \
              $(NFSROOTDIR)
-#
-#  Prepare central workdir that is later exported via NFS
-#
-	@echo "########## Prepare central workdir that is later exported via NFS"
-	mkdir -p $(METAREPORTSDIR)
-	mkdir -p $(OUTPUTDIR)
-	mkdir -p $(IMAGESDIR)
-	mkdir -p $(PACKAGESDIR)
-	mkdir -p $(TAPPERUTILSDIR)
-	mkdir -p $(TESTPROGRAMDIR)
-	mkdir -p $(CONFIGSDIR)
-	mkdir -p $(TFTPBOOTDIR)
-	mkdir -p $(SYNCDIR)
-	mkdir -p $(NFSROOTDIR)
+
+$(WORKDIRS):
+	mkdir -p $@
+
+workingdirs: $(WORKDIRS)
 
 baseimage64file: baseimage64chroot workingdirs $(BASEIMAGE64FILE)
 
@@ -452,7 +443,7 @@ $(NFSROOTDIR)/etc/log4perl.cfg: installernfsroot workingdirs
 	@echo "########## Prepare network boot OS"
 	rsync -ax --delete $(INSTALLERCHROOT)/ $(NFSROOTDIR)/
 
-optperl:
+optperl: dependencies
 #
 # Install Perl
 #
@@ -597,10 +588,17 @@ testreport:
 	@echo "*** You should now be able to view reports here:"
 	@echo "    http://$(TAPPER_SERVER)/tapper"
 
-tapperhost: intro dependencies installernfsroot baseimage64file \
-            nfsrootdir clientpkg64 workingdirs optperl nfsserver libdeps perlpkgs \
-            databases examplemachines tapperconfig receiver api web tftpserver \
-            testreport
+localsetup: workingdirs dependencies \
+            optperl libdeps perlpkgs \
+            databases examplemachines \
+            tapperconfig \
+            receiver api web \
+            testreport \
+            nfsserver tftpserver \
+
+tapperhost: intro dependencies \
+            installernfsroot baseimage64file nfsrootdir clientpkg64 \
+            localsetup
 
 engage: tapperhost
 

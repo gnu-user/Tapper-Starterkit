@@ -448,22 +448,8 @@ optperl: dependencies
 # Install Perl
 #
 	@echo "########## Install Perl"
-	export PERLBREW_ROOT=/opt/tapper/perl ; \
-	mkdir -p $$PERLBREW_ROOT ; \
-	curl -L http://xrl.us/perlbrew -o $(TMP)/perlbrew ; \
-	chmod +x $(TMP)/perlbrew ; \
-	$(TMP)/perlbrew install ; \
-	/opt/tapper/perl/bin/perlbrew init ; \
-	echo "source /opt/tapper/perl/etc/bashrc" >> $$HOME/.bashrc ; \
-	source /opt/tapper/perl/etc/bashrc ; \
-	perlbrew -j $(CPUCOUNT) install perl-$(PERLVERSION) ; \
-	perlbrew switch perl-$(PERLVERSION)
-#
-# CPAN config
-#
-	@echo "########## CPAN config"
-	cp $(STARTERKITDIR)/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-$(PERLVERSION)/lib/$(PERLVERSION)/CPAN/Config.pm
-	export PERL_AUTOINSTALL="--defaultdeps" ; echo "reload index" | cpan
+#	chmod +x $(STARTERKITDIR)/utils/prepare-optperl
+	$(STARTERKITDIR)/utils/prepare-optperl
 
 nfsserver:
 #

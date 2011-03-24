@@ -14,7 +14,7 @@ chmod +x perlbrew
 /opt/tapper/perl/bin/perlbrew init
 echo ". /opt/tapper/perl/etc/bashrc" >> $HOME/.bashrc
 . /opt/tapper/perl/etc/bashrc
-perlbrew -j ${CPUCOUNT} install perl-${PERLVERSION}
+perlbrew install -j ${CPUCOUNT} perl-${PERLVERSION}
 perlbrew switch perl-${PERLVERSION}
 
 # CPAN config

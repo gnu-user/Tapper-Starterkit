@@ -1,14 +1,24 @@
 Tapper-Starterkit
 =================
 
-A starter kit for setting up a Tapper instance,
-based on Debian/Squeeze.
+A starter kit for setting up a central Tapper server based on
+Debian/Squeeze.
 
- - download frontend makefile:
-   http://xrl.us/tapperstarterkit
+* Download frontend makefile:
 
- - type "make it so"
+  $ curl -L http://xrl.us/tapperstarterkit -o Makefile
 
+* Run installation:
+
+  $ make it so
+
+
+This will download subsequent starterkit files, install Debian
+packages, create intermediate chroots, pack images, install and setup
+/etc/init.d services and the web frontend, install Perl and CPAN
+packages and much more. Only for setting up the automation you will
+need some manual DHCP config and console and hardware reset
+installation.
 
 About Tapper
 ============

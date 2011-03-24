@@ -456,7 +456,7 @@ nfsserver:
 # Install an NFS server and export $(DATATAPPER)
 #
 	@echo "########## Install an NFS server and export $(DATATAPPER)"
-	apt-get install nfs-kernel-server
+	apt-get install --yes nfs-kernel-server
 	echo '$(DATATAPPER) 192.168.1.0/255.255.255.0(fsid=0,no_root_squash,no_subtree_check,rw)' >> /etc/exports
 
 libdeps:
@@ -464,20 +464,21 @@ libdeps:
 # Prepare packages
 #
 	@echo "########## Prepare packages"
-	apt-get install mysql-server
-	apt-get install libmysqlclient-dev
-	apt-get install libsqlite3-0
-	apt-get install sqlite3
-	apt-get install libexpat-dev
-	apt-get install apache2
-	apt-get install libapache2-mod-fcgid
-	apt-get install atftpd
+	apt-get install --yes mysql-server
+	apt-get install --yes libmysqlclient-dev
+	apt-get install --yes libsqlite3-0
+	apt-get install --yes sqlite3
+	apt-get install --yes libexpat-dev
+	apt-get install --yes apache2
+	apt-get install --yes libapache2-mod-fcgid
+	apt-get install --yes atftpd
 
 perlpkgs:
 #
 # Prepare CPAN libs
 #
 	@echo "########## Prepare CPAN libs"
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBI
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::mysql
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::SQLite
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Schema

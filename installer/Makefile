@@ -162,6 +162,7 @@ $(STARTERKITDIR)/etc/log4perl.cfg:
 	@echo "########## install some build dependencies"
 	apt-get update
 	apt-get install --yes debootstrap
+	apt-get install --yes patch
 	apt-get install --yes curl
 	apt-get install --yes wget
 	apt-get install --yes rsync
@@ -250,6 +251,7 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 	echo 'ramfs /var/lock  ramfs defaults 0 0' >> $(INSTALLERCHROOT)/etc/fstab
 	echo 'ramfs /var/run   ramfs defaults 0 0' >> $(INSTALLERCHROOT)/etc/fstab
 	echo 'ramfs /var/spool ramfs defaults 0 0' >> $(INSTALLERCHROOT)/etc/fstab
+	echo 'ramfs /var/lib/nfs ramfs defaults 0 0' >> $(INSTALLERCHROOT)/etc/fstab
 #
 ### configure NFS working directory
 #
@@ -464,11 +466,17 @@ libdeps:
 # Prepare packages
 #
 	@echo "########## Prepare packages"
+	apt-get install --yes expect
+	apt-get install --yes expect-dev
+	apt-get install --yes libssl-dev
 	apt-get install --yes mysql-server
 	apt-get install --yes libmysqlclient-dev
 	apt-get install --yes libsqlite3-0
 	apt-get install --yes sqlite3
-	apt-get install --yes libexpat-dev
+	apt-get install --yes libxml2
+	apt-get install --yes libxml2-dev
+	apt-get install --yes libexpat1
+	apt-get install --yes libexpat1-dev
 	apt-get install --yes apache2
 	apt-get install --yes libapache2-mod-fcgid
 	apt-get install --yes atftpd
@@ -478,6 +486,15 @@ perlpkgs:
 # Prepare CPAN libs
 #
 	@echo "########## Prepare CPAN libs"
+	# File::Slurp 9999.14 from 22 Mar 2011 introduced silly test bug, force install.
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f File::Slurp
+	# work around forgotten dependency in T::R::Web 3.0.4
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) File::Copy::Recursive
+	# fails sometimes in non-critical tests
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f Test::WWW::Mechanize
+	# missing dependency in T::R::Web 3.0.5
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Testplan
+	# non problematic rest
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBI
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::mysql
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::SQLite
@@ -576,7 +593,7 @@ testreport:
 	@echo "    http://$(TAPPER_SERVER)/tapper"
 
 localsetup: workingdirs dependencies \
-            optperl libdeps perlpkgs \
+            libdeps optperl perlpkgs \
             databases examplemachines \
             tapperconfig \
             receiver api web \

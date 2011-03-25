@@ -24,3 +24,6 @@ export TEST_JOBS=${CPUCOUNT}
 export CPAN=/opt/tapper/perl/perls/current/bin/cpan
 echo "reload index" | $CPAN
 
+$CPAN LWP
+$CPAN Expect
+

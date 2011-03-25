@@ -20,6 +20,7 @@ cd /tmp
 tar xzf tapper-starterkit.tgz
 
 # some utils
+apt-get --yes --allow-unauthenticated install pciutils
 apt-get --yes --allow-unauthenticated install patch
 apt-get --yes --allow-unauthenticated install curl
 apt-get --yes --allow-unauthenticated install make
@@ -56,14 +57,13 @@ cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERL
 export PERL_AUTOINSTALL="--defaultdeps"
 export TEST_JOBS=${CPUCOUNT}
 export CPAN=/opt/tapper/perl/perls/current/bin/cpan
-
-echo "INVESTIGATE HERE!" ; exit 1
-
 echo "reload index" | $CPAN
+$CPAN LWP
+$CPAN Expect
 
-# Install Tapper::Installer
+# the actual Tapper::Installer
 $CPAN Tapper::Installer
-cp /opt/tapper/perl/perls/current/bin/tapper-installer-client.pl /etc/init.d/tapper
+cp /tmp/tapper-starterkit/etc/init.d/tapper /etc/init.d/tapper
 chmod +x /etc/init.d/tapper
 insserv tapper
 
@@ -96,3 +96,11 @@ patch -p1 -N < /tmp/tapper-starterkit/misc/disable_useless_consoles.patch
 
 # don't set a hostname to trigger getting it dynamically on boot
 rm /etc/hostname
+
+# create devices
+cp /tmp/tapper-starterkit/misc/MAKEDEV /dev/MAKEDEV
+chmod +x /dev/MAKEDEV
+cd /dev
+./MAKEDEV generic
+
+

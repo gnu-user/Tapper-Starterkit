@@ -21,6 +21,7 @@ $CPAN::Config = {
   'cpan_home' => ($ENV{HOME} || "/root").q[/.cpan],
   'dontload_hash' => {  },
   'ftp' => q[/usr/bin/ftp],
+  'patch' => q[/usr/bin/patch],
   'ftp_passive' => q[1],
   'ftp_proxy' => q[],
   'getcwd' => q[cwd],

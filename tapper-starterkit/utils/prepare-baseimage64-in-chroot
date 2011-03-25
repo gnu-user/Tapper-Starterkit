@@ -46,8 +46,10 @@ export PERL_AUTOINSTALL="--defaultdeps"
 export TEST_JOBS=${CPUCOUNT}
 export CPAN=/opt/tapper/perl/perls/current/bin/cpan
 echo "reload index" | $CPAN
+$CPAN LWP
+$CPAN Expect
 
-# Install Tapper::Installer
+# the actual Tapper::Installer
 $CPAN Tapper::Installer
 cp /opt/tapper/perl/perls/current/bin/tapper-installer-client.pl /etc/init.d/tapper
 chmod +x /etc/init.d/tapper
@@ -55,7 +57,7 @@ insserv tapper
 
 # create the required files and directories
 
-mkdir -p /mnt/target/
+mkdir -p /mnt/target
 mkdir -p /mnt/guests
 mkdir -p /data/tapper
 

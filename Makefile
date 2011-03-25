@@ -3,8 +3,10 @@ EXAMPLEFILES = $(STARTERKIT)/etc/log4perl.cfg \
                $(STARTERKIT)/etc/apache2/conf.d/tapper_reports_web.conf \
                $(STARTERKIT)/etc/init.d/tapper_reports_receiver_daemon \
                $(STARTERKIT)/etc/init.d/tapper_reports_api_daemon \
+               $(STARTERKIT)/etc/init.d/tapper \
                $(STARTERKIT)/etc/dhcp.conf \
                $(STARTERKIT)/etc/tapper.cfg \
+               $(STARTERKIT)/misc/MAKEDEV \
                $(STARTERKIT)/misc/CPAN-Config.pm \
                $(STARTERKIT)/misc/starterkit.tap \
                $(STARTERKIT)/misc/disable_useless_consoles.patch \

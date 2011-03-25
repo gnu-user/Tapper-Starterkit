@@ -494,6 +494,8 @@ perlpkgs:
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f Test::WWW::Mechanize
 	# missing dependency in T::R::Web 3.0.5
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Testplan
+	# missing dependency in T::R::Web
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) TAP::Parser
 	# non problematic rest
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBI
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::mysql

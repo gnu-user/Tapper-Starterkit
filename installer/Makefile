@@ -114,6 +114,12 @@ CLEANFILES = $(TMP)/$(STARTERKIT) \
              $(INSTALLERCHROOT) \
              $(BASEIMAGE64CHROOT) 
 
+LOCALCLEANFILES=$(TMP)/$(STARTERKIT) \
+                $(STARTERKITDIR) \
+                $(DISTROPREFSDIR) \
+                /etc/tapper.cfg \
+                /opt/tapper/perl
+
 CPUCOUNT = `cat /proc/cpuinfo | grep vendor_id|wc -l`
 
 # default target
@@ -145,6 +151,28 @@ clean:
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
 	rm -fr $(CLEANFILES)
+
+localclean:
+	@echo "########## Remove local machine setup"
+	$(APTGET) remove --purge expect-dev
+	$(APTGET) remove --purge expect
+	$(APTGET) remove --purge libssl-dev
+	$(APTGET) remove --purge mysql-server
+	$(APTGET) remove --purge libmysqlclient-dev
+	$(APTGET) remove --purge libsqlite3-0
+	$(APTGET) remove --purge sqlite3
+	$(APTGET) remove --purge libxml2-dev
+	$(APTGET) remove --purge libxml2
+	$(APTGET) remove --purge libexpat1-dev
+	$(APTGET) remove --purge libexpat1
+	$(APTGET) remove --purge libapache2-mod-fcgid
+	$(APTGET) remove --purge apache2
+	$(APTGET) remove --purge atftpd
+	$(APTGET) autoremove
+	rm -fr $(LOCALCLEANFILES)
+
+localcleandb:
+	echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p
 
 # ==============================================================
 # *

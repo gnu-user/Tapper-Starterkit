@@ -31,7 +31,7 @@ apt-get --yes --allow-unauthenticated install openssh-server
 apt-get --yes --allow-unauthenticated install nfs-common
 # Bug with nfs-common
 /var/lib/dpkg/info/nfs-common.postinst
-### XXX TODO ### apt-get --yes --allow-unauthenticated install grub-pc
+apt-get --yes --allow-unauthenticated install grub-legacy
 
 
 # set default password

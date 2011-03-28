@@ -640,10 +640,37 @@ localsetup: workingdirs dependencies \
             receiver api web \
             testreport \
             nfsserver tftpserver \
+	@echo "**************************************************"
+	@echo "*"
+	@echo "* Installation done."
+	@echo "*"
+	@echo "* Comment about passwords:"
+	@echo "*"
+	@echo "* Please note that the mysql user 'tapper' got a"
+	@echo "* default password which matches its default"
+	@echo "* configuration in /etc/tapper.cfg."
+	@echo "*"
+	@echo "* If you change it, change it in config, too."
+	@echo "*"
+	@echo "**************************************************"
 
 tapperhost: intro dependencies \
             installernfsroot baseimage64file nfsrootdir clientpkg64 \
             localsetup
+	@echo "**************************************************"
+	@echo "*"
+	@echo "* Installation done."
+	@echo "*"
+	@echo "* Comment about passwords:"
+	@echo "*"
+	@echo "* The created nfsroot and the baseimage that"
+	@echo "* are both used during automatic installation and"
+	@echo "* test running got default passwords, respectively."
+	@echo "*"
+	@echo "* Change them with 'chroot' and 'passwd' if you"
+	@echo "* use them in non trusted environment."
+	@echo "*"
+	@echo "**************************************************"
 
 engage: tapperhost
 

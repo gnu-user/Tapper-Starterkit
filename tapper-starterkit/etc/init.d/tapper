@@ -12,6 +12,6 @@
 # Description:       Start TAPPER_INSTALLER to setup machine
 ### END INIT INFO
 
-if [[ $1 == 'start' ]]; then
+if ( test "$1" = 'start' ); then
     /opt/tapper/perl/perls/current/bin/tapper-installer-client.pl $*
 fi

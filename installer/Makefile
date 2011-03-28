@@ -634,9 +634,9 @@ testreport:
 	@echo "    http://$(TAPPER_SERVER)/tapper"
 
 localsetup: workingdirs dependencies \
+            tapperconfig \
             libdeps optperl perlpkgs \
             databases examplemachines \
-            tapperconfig \
             receiver api web \
             testreport \
             nfsserver tftpserver \

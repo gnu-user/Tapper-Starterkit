@@ -155,6 +155,8 @@ distroprefs: $(DISTROPREFSDIR)/00.README
 $(DISTROPREFSDIR)/00.README:
 	mkdir -p $(DISTROPREFSDIR)/
 	wget -r --no-parent -nd -N -P $(DISTROPREFSDIR)/ $(DISTROPREFS)
+# fix non-fitting distroprefs
+	perl -pni -e 's/disabled: +1/disabled: 0/' $(DISTROPREFSDIR)/PARDUS.File-MimeInfo.yml
 
 dependencies: distroprefs $(STARTERKITDIR)/etc/log4perl.cfg
 
@@ -230,6 +232,7 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 	@echo "########## Perl/CPAN setup"
 	mkdir -p $(INSTALLERCHROOT)/$(DISTROPREFSDIR)/
 	rsync -r $(DISTROPREFSDIR)/ $(INSTALLERCHROOT)/$(DISTROPREFSDIR)/
+	perl -pni -e 's/disabled: +1/disabled: 0/' $(INSTALLERCHROOT)/$(DISTROPREFSDIR)/PARDUS.File-MimeInfo.yml
 #
 ### enable console login
 #
@@ -323,6 +326,7 @@ $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 	@echo "########## Perl/CPAN setup"
 	mkdir -p $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/
 	rsync -r $(DISTROPREFSDIR)/ $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/
+	perl -pni -e 's/disabled: +1/disabled: 0/' $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/PARDUS.File-MimeInfo.yml
 #
 ### enable console login
 #

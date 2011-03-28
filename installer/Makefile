@@ -93,7 +93,13 @@ TESTMACHINE2=sarahconnor
 PERLVERSION=5.12.3
 DISTROPREFS=http://cpansearch.perl.org/src/ANDK/CPAN-1.9600/distroprefs/
 DISTROPREFSDIR=/root/.cpan/prefs
-CPAN=/opt/tapper/perl/perls/current/bin/cpan
+PERLBIN=/opt/tapper/perl/perls/current/bin
+CPAN=$(PERLBIN)/cpan
+PERL=$(PERLBIN)/perl
+
+# Debian automatic install
+APTGETOPTIONS=-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --yes
+APTGET=DEBIAN_FRONTEND=noninteractive; export DEBIAN_FRONTEND ; apt-get $(APTGETOPTIONS)
 
 ### starter kit
 STARTERKITBASENAME=tapper-starterkit
@@ -162,15 +168,15 @@ dependencies: distroprefs $(STARTERKITDIR)/etc/log4perl.cfg
 
 $(STARTERKITDIR)/etc/log4perl.cfg:
 	@echo "########## install some build dependencies"
-	apt-get update
-	apt-get install --yes debootstrap
-	apt-get install --yes patch
-	apt-get install --yes curl
-	apt-get install --yes wget
-	apt-get install --yes rsync
-	apt-get install --yes patch
-	apt-get install --yes gcc
-	apt-get install --yes perl-modules
+	$(APTGET) update
+	$(APTGET) install debootstrap
+	$(APTGET) install patch
+	$(APTGET) install curl
+	$(APTGET) install wget
+	$(APTGET) install rsync
+	$(APTGET) install patch
+	$(APTGET) install gcc
+	$(APTGET) install perl-modules
 	curl -z$(TMP)/$(STARTERKIT) -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)
 	cd $(TMP) ; tar xzf $(STARTERKIT)
 
@@ -462,7 +468,7 @@ nfsserver:
 # Install an NFS server and export $(DATATAPPER)
 #
 	@echo "########## Install an NFS server and export $(DATATAPPER)"
-	apt-get install --yes nfs-kernel-server
+	$(APTGET) install nfs-kernel-server
 	echo '$(DATATAPPER) 192.168.1.0/255.255.255.0(fsid=0,no_root_squash,no_subtree_check,rw)' >> /etc/exports
 
 libdeps:
@@ -470,20 +476,20 @@ libdeps:
 # Prepare packages
 #
 	@echo "########## Prepare packages"
-	apt-get install --yes expect
-	apt-get install --yes expect-dev
-	apt-get install --yes libssl-dev
-	apt-get install --yes mysql-server
-	apt-get install --yes libmysqlclient-dev
-	apt-get install --yes libsqlite3-0
-	apt-get install --yes sqlite3
-	apt-get install --yes libxml2
-	apt-get install --yes libxml2-dev
-	apt-get install --yes libexpat1
-	apt-get install --yes libexpat1-dev
-	apt-get install --yes apache2
-	apt-get install --yes libapache2-mod-fcgid
-	apt-get install --yes atftpd
+	$(APTGET) install expect
+	$(APTGET) install expect-dev
+	$(APTGET) install libssl-dev
+	$(APTGET) install mysql-server
+	$(APTGET) install libmysqlclient-dev
+	$(APTGET) install libsqlite3-0
+	$(APTGET) install sqlite3
+	$(APTGET) install libxml2
+	$(APTGET) install libxml2-dev
+	$(APTGET) install libexpat1
+	$(APTGET) install libexpat1-dev
+	$(APTGET) install apache2
+	$(APTGET) install libapache2-mod-fcgid
+	$(APTGET) install atftpd
 
 perlpkgs:
 #
@@ -523,15 +529,15 @@ databases:
 	yes | tapper-db-deploy init --db ReportsDB
 	yes | tapper-db-deploy init --db TestrunDB
 	@echo "(Newqueue fails if already exists. Ignore.)"
-	-tapper-testrun newqueue --name AdHoc --prio 1000
+	-$(PERL) $(PERLBIN)/tapper-testrun newqueue --name AdHoc --prio 1000
 
 examplemachines:
 #
 # Add known test machines
 #
 	@echo "########## Add known test machines"
-	tapper-testrun newhost --name $(TESTMACHINE1)
-	tapper-testrun newhost --name $(TESTMACHINE2)
+	$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE1)
+	$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE2)
 #
 # Add machine features (no public frontend tool available)
 #

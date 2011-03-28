@@ -549,13 +549,14 @@ databases:
 # Prepare mysql-server
 #
 	@echo "########## Prepare mysql-server"
-	echo "create user tapper identified by 'tapper';" | mysql -uroot
-	echo "create database reportsdb;" | mysql -uroot -p
-	echo "grant all on reportsdb.* to tapper@'%';" | mysql -uroot
-	echo "create database testrundb;" | mysql -uroot -p
-	echo "grant all on testrundb.* to tapper@'%';" | mysql -u root
-	yes | tapper-db-deploy init --db ReportsDB
-	yes | tapper-db-deploy init --db TestrunDB
+	-echo "create user tapper identified by 'tapper'; \
+               create database reportsdb; \
+               grant all on reportsdb.* to tapper@'%'; \
+               create database testrundb;\
+               grant all on testrundb.* to tapper@'%';" \
+	mysql -uroot -p
+	yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db ReportsDB
+	yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db TestrunDB
 	@echo "(Newqueue fails if already exists. Ignore.)"
 	-$(PERL) $(PERLBIN)/tapper-testrun newqueue --name AdHoc --prio 1000
 

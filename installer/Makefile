@@ -150,26 +150,29 @@ clean:
 	-umount $(BASEIMAGE64CHROOT)/sys
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
-	rm -fr $(CLEANFILES)
+	-umount $(CLIENTPKG64CHROOT)/sys
+	-umount $(CLIENTPKG64CHROOT)/proc
+	-umount $(CLIENTPKG64CHROOT)/dev/pts
+	-rm -fr $(CLEANFILES)
 
 localclean:
 	@echo "########## Remove local machine setup"
-	$(APTGET) remove --purge expect-dev
-	$(APTGET) remove --purge expect
-	$(APTGET) remove --purge libssl-dev
-	$(APTGET) remove --purge mysql-server
-	$(APTGET) remove --purge libmysqlclient-dev
-	$(APTGET) remove --purge libsqlite3-0
-	$(APTGET) remove --purge sqlite3
-	$(APTGET) remove --purge libxml2-dev
-	$(APTGET) remove --purge libxml2
-	$(APTGET) remove --purge libexpat1-dev
-	$(APTGET) remove --purge libexpat1
-	$(APTGET) remove --purge libapache2-mod-fcgid
-	$(APTGET) remove --purge apache2
-	$(APTGET) remove --purge atftpd
-	$(APTGET) autoremove
-	rm -fr $(LOCALCLEANFILES)
+	-$(APTGET) remove --purge expect-dev
+	-$(APTGET) remove --purge expect
+	-$(APTGET) remove --purge libssl-dev
+	-$(APTGET) remove --purge mysql-server
+	-$(APTGET) remove --purge libmysqlclient-dev
+	-$(APTGET) remove --purge libsqlite3-0
+	-$(APTGET) remove --purge sqlite3
+	-$(APTGET) remove --purge libxml2-dev
+	-$(APTGET) remove --purge libxml2
+	-$(APTGET) remove --purge libexpat1-dev
+	-$(APTGET) remove --purge libexpat1
+	-$(APTGET) remove --purge libapache2-mod-fcgid
+	-$(APTGET) remove --purge apache2
+	-$(APTGET) remove --purge atftpd
+	-$(APTGET) autoremove
+	-rm -fr $(LOCALCLEANFILES)
 
 localcleandb:
 	echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p
@@ -238,7 +241,7 @@ $(INSTALLERNFSROOT)/etc/log4perl.cfg:
 	-umount $(INSTALLERCHROOT)/sys
 	-umount $(INSTALLERCHROOT)/proc
 	-umount $(INSTALLERCHROOT)/dev/pts
-	rm -fr $(INSTALLERCHROOT)
+	-rm -fr $(INSTALLERCHROOT)
 	mkdir -p $(INSTALLERCHROOT)
 #
 ### bootstrap new debian in chroot
@@ -331,7 +334,7 @@ $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 	@echo "########## prepare subdirs"
 	-umount $(BASEIMAGE64CHROOT)/proc
 	-umount $(BASEIMAGE64CHROOT)/dev/pts
-	rm -fr $(BASEIMAGE64CHROOT)
+	-rm -fr $(BASEIMAGE64CHROOT)
 	mkdir -p $(BASEIMAGE64CHROOT)
 #
 ### bootstrap new debian in it
@@ -360,7 +363,7 @@ $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 	@echo "########## Perl/CPAN setup"
 	mkdir -p $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/
 	rsync -r $(DISTROPREFSDIR)/ $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/
-	perl -pni -e 's/disabled: +1/disabled: 0/' $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/PARDUS.File-MimeInfo.yml
+	-perl -pni -e 's/disabled: +1/disabled: 0/' $(BASEIMAGE64CHROOT)/$(DISTROPREFSDIR)/PARDUS.File-MimeInfo.yml
 #
 ### enable console login
 #
@@ -411,8 +414,8 @@ $(CLIENTPKG64FILE): baseimage64file
 ### prepare subdirs
 #
 	@echo "########## Prepare client-side opt-tapper package"
-	rm -fr $(CLIENTPKG64CHROOT)
-	mkdir $(CLIENTPKG64CHROOT)
+	-rm -fr $(CLIENTPKG64CHROOT)
+	mkdir -p $(CLIENTPKG64CHROOT)
 	tar -C $(CLIENTPKG64CHROOT) -xzf $(BASEIMAGE64FILE)
 	mount -t proc proc $(CLIENTPKG64CHROOT)/proc
 	mount -t devpts devpts $(CLIENTPKG64CHROOT)/dev/pts

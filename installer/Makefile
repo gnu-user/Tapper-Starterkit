@@ -418,6 +418,8 @@ $(CLIENTPKG64FILE): baseimage64file
 ### prepare subdirs
 #
 	@echo "########## Prepare client-side opt-tapper package"
+	-umount $(CLIENTPKG64CHROOT)/proc
+	-umount $(CLIENTPKG64CHROOT)/dev/pts
 	-rm -fr $(CLIENTPKG64CHROOT)
 	mkdir -p $(CLIENTPKG64CHROOT)
 	tar -C $(CLIENTPKG64CHROOT) -xzf $(BASEIMAGE64FILE)

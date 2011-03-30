@@ -33,6 +33,17 @@ apt-get --yes --allow-unauthenticated install nfs-common
 /var/lib/dpkg/info/nfs-common.postinst
 apt-get --yes --allow-unauthenticated install grub-legacy
 
+# dependencies for Perl libs
+apt-get --yes --allow-unauthenticated install expect
+apt-get --yes --allow-unauthenticated install expect-dev
+apt-get --yes --allow-unauthenticated install libssl-dev
+apt-get --yes --allow-unauthenticated install libmysqlclient-dev
+apt-get --yes --allow-unauthenticated install libsqlite3-0
+apt-get --yes --allow-unauthenticated install sqlite3
+apt-get --yes --allow-unauthenticated install libxml2
+apt-get --yes --allow-unauthenticated install libxml2-dev
+apt-get --yes --allow-unauthenticated install libexpat1
+apt-get --yes --allow-unauthenticated install libexpat1-dev
 
 # set default password
 echo "root:tapper" | chpasswd

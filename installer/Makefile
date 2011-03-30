@@ -179,6 +179,7 @@ localcleandb:
 
 mrproper: clean localclean localcleandb
 	-rm -fr $(CLIENTPKG64FILE)
+	-rm -fr $(BASEIMAGE64FILE)
 
 # ==============================================================
 # *

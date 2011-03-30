@@ -432,8 +432,7 @@ $(CLIENTPKG64FILE): baseimage64file
 	rm -f $(CLIENTPKG64CHROOT)/$(CLIENTPKG64CHROOTPREPARE)
 	-umount $(CLIENTPKG64CHROOT)/proc
 	-umount $(CLIENTPKG64CHROOT)/dev/pts
-	cd $(CLIENTPKG64CHROOT)
-	tar -czf $(CLIENTPKG64FILE) opt/
+	cd $(CLIENTPKG64CHROOT) ; tar -czf $(CLIENTPKG64FILE) opt/
 
 # ==============================================================
 # *

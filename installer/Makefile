@@ -506,8 +506,9 @@ nfsserver:
 	@echo "########## Install an NFS server and export $(DATATAPPER)"
 	$(APTGET) install nfs-kernel-server
 	# find out IP in a clever way, hopefully not too clever...
-	for IP in $(ip addr | awk '/inet / {print $2}'); do echo "$(DATATAPPER) $IP (fsid=0,no_root_squash,no_subtree_check,rw,insecure)" >> /etc/exports ; done
+	for IP in $$(ip addr | awk '/inet / {print $$2}'); do echo "$(DATATAPPER) $$IP (fsid=0,no_root_squash,no_subtree_check,rw,insecure)" >> /etc/exports ; done
 	# later append: 192.168.1.0/255.255.255.0(fsid=0,no_root_squash,no_subtree_check,rw)
+	/etc/init.d/nfs-kernel-server restart
 
 libdeps:
 #

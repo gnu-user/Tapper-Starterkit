@@ -505,7 +505,9 @@ $(NFSROOTDIR)/etc/log4perl.cfg: installernfsroot workingdirs
 	@echo "########## Prepare network boot OS"
 	rsync -ax --delete $(INSTALLERCHROOT)/ $(NFSROOTDIR)/
 
-optperl: dependencies
+optperl: dependencies $(PERLBIN)/perl
+
+$(PERLBIN)/perl:
 #
 # Install Perl
 #
@@ -554,7 +556,7 @@ perlpkgs:
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) File::Copy::Recursive
 	# fails sometimes in non-critical tests
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f Test::WWW::Mechanize
-	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) -f Test::WWW::Mechanize::Catalyst
+	#PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) -f Test::WWW::Mechanize::Catalyst
 	# work around missing deps in HTML::FormFu
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f IO::Interactive
 	# missing dependency in T::R::Web 3.0.5
@@ -579,8 +581,8 @@ databases:
                create database testrundb;\
                grant all on testrundb.* to tapper@'%';" | \
 	mysql -uroot -p
-	yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db ReportsDB
-	yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db TestrunDB
+	-yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db ReportsDB
+	-yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db TestrunDB
 	@echo "(Newqueue fails if already exists. Ignore.)"
 	-$(PERL) $(PERLBIN)/tapper-testrun newqueue --name AdHoc --prio 1000
 
@@ -589,22 +591,22 @@ examplemachines:
 # Add known test machines
 #
 	@echo "########## Add known test machines"
-	$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE1)
-	$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE2)
+	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE1)
+	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE2)
 #
 # Add machine features (no public frontend tool available)
 #
 	@echo "########## Add machine features"
 # machine1
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),     'mem',  4096);" | mysql testrundb -utapper -ptapper
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),   'cores',     4);" | mysql testrundb -utapper -ptapper
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),  'vendor', 'AMD');" | mysql testrundb -utapper -ptapper
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'), 'has_ecc',     1);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),     'mem',  4096);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),   'cores',     4);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),  'vendor', 'AMD');" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'), 'has_ecc',     1);" | mysql testrundb -utapper -ptapper
 # machine1
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),     'mem',    2048);" | mysql testrundb -utapper -ptapper
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),   'cores',       2);" | mysql testrundb -utapper -ptapper
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),  'vendor', 'Intel');" | mysql testrundb -utapper -ptapper
-	echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'), 'has_ecc',       0);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),     'mem',    2048);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),   'cores',       2);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),  'vendor', 'Intel');" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'), 'has_ecc',       0);" | mysql testrundb -utapper -ptapper
 
 tapperconfig:
 #
@@ -615,7 +617,7 @@ tapperconfig:
 	IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
 	perl -i -pne "s/__TAPPER_HOST_IP__/$$IP/g" /etc/tapper.cfg ;
 
-receiver: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
+receiver: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
 #
 # start scripts for reports-receiver
 #
@@ -625,7 +627,7 @@ receiver: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databas
 	insserv tapper_reports_receiver_daemon
 	/etc/init.d/tapper_reports_receiver_daemon restart
 
-api: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
+api: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
 #
 # start scripts for reports-api
 #
@@ -635,7 +637,7 @@ api: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases ex
 	insserv tapper_reports_api_daemon
 	/etc/init.d/tapper_reports_api_daemon restart
 
-mcp: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
+mcp: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
 #
 # start scripts for MCP
 #
@@ -646,7 +648,7 @@ mcp: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases ex
 	insserv tapper_mcp_daemon
 	/etc/init.d/tapper_mcp_daemon restart
 
-web: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
+web: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
 #
 # start scripts for web frontend
 #

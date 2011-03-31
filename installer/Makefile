@@ -639,10 +639,16 @@ web:
 
 tftpserver:
 #
-# start scripts for web frontend
+# Install an TFTP server and export $(DATATAPPER)
 #
-	cp $(STARTERKITDIR)/netboot/bzImage /tftpboot/
-	ln -s $(TFTPBOOTDIR) /tftpboot/tftpboot
+	@echo "########## Install an NFS server and export $(DATATAPPER)"
+	$(APTGET) install atftpd
+	# symlink Debian specific dir to keep all files in our central data dir
+	-rm -rf /srv/tftp
+	-ln -sf $(TFTPBOOTDIR) /srv/tftp
+	-ln -s $(TFTPBOOTDIR) $(TFTPBOOTDIR)/tftpboot
+	cp $(STARTERKITDIR)/tftpboot/bzImage $(TFTPBOOTDIR)/
+	/etc/init.d/atftpd restart
 
 testreport:
 # test report

@@ -110,9 +110,11 @@ STARTERKITDIR=$(TMP)/$(STARTERKITBASENAME)
 ### intermediate build files, not the final results
 CLEANFILES = $(TMP)/$(STARTERKIT) \
              $(STARTERKITDIR) \
-             $(DISTROPREFSDIR) \
-             $(INSTALLERCHROOT) \
-             $(BASEIMAGE64CHROOT) 
+             $(DISTROPREFSDIR)
+
+NFSROOTCLEANFILES = $(INSTALLERCHROOT) \
+                    $(BASEIMAGE64CHROOT) \
+                    $(CLIENTPKG64CHROOT)
 
 LOCALCLEANFILES=$(TMP)/$(STARTERKIT) \
                 $(STARTERKITDIR) \
@@ -155,6 +157,18 @@ clean:
 	-umount $(CLIENTPKG64CHROOT)/dev/pts
 	-rm -fr $(CLEANFILES)
 
+nfsrootclean:
+	-umount $(INSTALLERCHROOT)/sys
+	-umount $(INSTALLERCHROOT)/proc
+	-umount $(INSTALLERCHROOT)/dev/pts
+	-umount $(BASEIMAGE64CHROOT)/sys
+	-umount $(BASEIMAGE64CHROOT)/proc
+	-umount $(BASEIMAGE64CHROOT)/dev/pts
+	-umount $(CLIENTPKG64CHROOT)/sys
+	-umount $(CLIENTPKG64CHROOT)/proc
+	-umount $(CLIENTPKG64CHROOT)/dev/pts
+	-rm -fr $(NFSROOTCLEANFILES)
+
 localclean:
 	@echo "########## Remove local machine setup"
 	-$(APTGET) remove --purge expect-dev
@@ -177,7 +191,7 @@ localclean:
 localcleandb:
 	-echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p
 
-mrproper: clean localclean localcleandb
+mrproper: clean localclean localcleandb nfsrootclean
 	-rm -fr $(CLIENTPKG64FILE)
 	-rm -fr $(BASEIMAGE64FILE)
 

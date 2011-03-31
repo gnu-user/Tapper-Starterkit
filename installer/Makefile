@@ -351,7 +351,7 @@ $(BASEIMAGE64CHROOT)/etc/log4perl.cfg:
 ### set shell environment
 #
 	@echo "########## set shell environment"
-	echo 'PS1="CHROOT-Tapper-BasImage:\w# "'       >> $(BASEIMAGE64CHROOT)/root/.bashrc
+	echo 'PS1="CHROOT-Tapper-BaseImage:\w# "'      >> $(BASEIMAGE64CHROOT)/root/.bashrc
 	echo 'CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`' >> $(BASEIMAGE64CHROOT)/root/.bashrc
 	echo 'export TEST_JOBS=$$CPUCOUNT'             >> $(BASEIMAGE64CHROOT)/root/.bashrc
 	echo 'export PERL_AUTOINSTALL="--defaultdeps"' >> $(BASEIMAGE64CHROOT)/root/.bashrc

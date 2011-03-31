@@ -175,7 +175,7 @@ localclean:
 	-rm -fr $(LOCALCLEANFILES)
 
 localcleandb:
-	echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p
+	-echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p
 
 mrproper: clean localclean localcleandb
 	-rm -fr $(CLIENTPKG64FILE)

@@ -14,12 +14,11 @@
 ### END INIT INFO
 
 # Note: Special treatment of stop for LSB conformance
-PERL=/opt/tapper/perl/bin/perl
+PERL=/opt/tapper/perl/perls/current/bin/perl
 TAPPER_REPORTS_API_BIN=/opt/tapper/perl/perls/current/bin/tapper-reports-api-daemon
 test -f $TAPPER_REPORTS_API_BIN || { echo "$TAPPER_REPORTS_API_BIN not installed"; 
 	if [ "$1" = "stop" ]; then exit 0;
 	else exit 5; fi; }
-
 
 case "$1" in
     start)

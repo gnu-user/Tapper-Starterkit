@@ -25,7 +25,7 @@ case "$1" in
 	echo -n "Starting TAPPER_REPORTS_API "
 	export MX_DAEMON_STDOUT=/var/log/tapper_reports_api_daemon_stdout.log
 	export MX_DAEMON_STDERR=/var/log/tapper_reports_api_daemon_stderr.log
-	export TAPPER_DEVELOPMENT=1
+	#export TAPPER_DEVELOPMENT=1
 	$PERL $TAPPER_REPORTS_API_BIN start
 	;;
     stop)

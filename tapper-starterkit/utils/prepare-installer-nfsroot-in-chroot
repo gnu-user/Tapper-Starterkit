@@ -65,6 +65,7 @@ perlbrew switch perl-${PERLVERSION}
 # CPAN config
 echo cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERLVERSION}/lib/${PERLVERSION}/CPAN/Config.pm
 cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERLVERSION}/lib/${PERLVERSION}/CPAN/Config.pm
+export TWMC_TEST_PORT=9876
 export PERL_AUTOINSTALL="--defaultdeps"
 export TEST_JOBS=${CPUCOUNT}
 export CPAN=/opt/tapper/perl/perls/current/bin/cpan

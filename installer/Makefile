@@ -615,6 +615,17 @@ api:
 	insserv tapper_reports_api_daemon
 	/etc/init.d/tapper_reports_api_daemon restart
 
+mcp:
+#
+# start scripts for MCP
+#
+	@echo "########## start scripts for MCP"
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::MCP
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::MCP::MessageReceiver
+	cp $(STARTERKITDIR)/etc/init.d/tapper_mcp_daemon /etc/init.d/
+	insserv tapper_mcp_daemon
+	/etc/init.d/tapper_mcp_daemon restart
+
 web:
 #
 # start scripts for web frontend
@@ -647,7 +658,7 @@ localsetup: workingdirs dependencies \
             tapperconfig \
             libdeps optperl perlpkgs \
             databases examplemachines \
-            receiver api web \
+            mcp receiver api web \
             testreport \
             nfsserver tftpserver \
 	@echo "**************************************************"

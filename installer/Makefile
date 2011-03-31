@@ -615,7 +615,7 @@ tapperconfig:
 	IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
 	perl -i -pne "s/__TAPPER_HOST_IP__/$$IP/g" /etc/tapper.cfg ;
 
-receiver:
+receiver: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
 #
 # start scripts for reports-receiver
 #
@@ -625,7 +625,7 @@ receiver:
 	insserv tapper_reports_receiver_daemon
 	/etc/init.d/tapper_reports_receiver_daemon restart
 
-api:
+api: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
 #
 # start scripts for reports-api
 #
@@ -635,7 +635,7 @@ api:
 	insserv tapper_reports_api_daemon
 	/etc/init.d/tapper_reports_api_daemon restart
 
-mcp:
+mcp: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
 #
 # start scripts for MCP
 #
@@ -646,7 +646,7 @@ mcp:
 	insserv tapper_mcp_daemon
 	/etc/init.d/tapper_mcp_daemon restart
 
-web:
+web: workingdirs dependencies tapperconfig libdeps optperl perlpkgs databases examplemachines
 #
 # start scripts for web frontend
 #
@@ -670,7 +670,7 @@ tftpserver:
 	cp $(STARTERKITDIR)/tftpboot/bzImage $(TFTPBOOTDIR)/
 	/etc/init.d/atftpd restart
 
-testreport:
+testreport: receiver
 # test report
 	OURHOSTNAME=$$(perl -MSys::Hostname -e 'print Sys::Hostname::hostname') ;\
 	  OURTAPPERPORT=$$(echo $$(cat /etc/tapper.cfg |grep '^report_port:'|cut -d: -f2)) ; \
@@ -684,9 +684,10 @@ localsetup: workingdirs dependencies \
             tapperconfig \
             libdeps optperl perlpkgs \
             databases examplemachines \
-            mcp receiver api web \
+            receiver web api \
             testreport \
             nfsserver tftpserver \
+            mcp
 	@echo "**************************************************"
 	@echo "*"
 	@echo "* Installation done."

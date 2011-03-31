@@ -560,7 +560,7 @@ databases:
                create database reportsdb; \
                grant all on reportsdb.* to tapper@'%'; \
                create database testrundb;\
-               grant all on testrundb.* to tapper@'%';" \
+               grant all on testrundb.* to tapper@'%';" | \
 	mysql -uroot -p
 	yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db ReportsDB
 	yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db TestrunDB

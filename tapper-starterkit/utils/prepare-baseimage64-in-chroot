@@ -16,6 +16,10 @@ echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
 cd /tmp
 tar xzf tapper-starterkit.tgz
 
+# helpless try for the archives
+# wget ftp://ftp.debian.org/debian/pool/main/n/nfs-utils/nfs-common_1.2.2-5_amd64.deb
+# dpkg -i nfs-common_1.2.2-5_amd64.deb
+
 # some utils
 apt-get --yes --allow-unauthenticated install curl
 apt-get --yes --allow-unauthenticated install make

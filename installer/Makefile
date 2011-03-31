@@ -528,7 +528,6 @@ libdeps:
 	$(APTGET) install libexpat1-dev
 	$(APTGET) install apache2
 	$(APTGET) install libapache2-mod-fcgid
-	$(APTGET) install atftpd
 
 perlpkgs:
 #
@@ -551,9 +550,6 @@ perlpkgs:
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::SQLite
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Schema
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::CLI
-	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::Web
-	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::Receiver
-	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::API
 
 databases:
 #
@@ -604,6 +600,7 @@ receiver:
 # start scripts for reports-receiver
 #
 	@echo "########## start scripts for reports-receiver"
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::Receiver
 	cp $(STARTERKITDIR)/etc/init.d/tapper_reports_receiver_daemon /etc/init.d/
 	insserv tapper_reports_receiver_daemon
 	/etc/init.d/tapper_reports_receiver_daemon restart
@@ -613,6 +610,7 @@ api:
 # start scripts for reports-api
 #
 	@echo "########## start scripts for reports-api"
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::API
 	cp $(STARTERKITDIR)/etc/init.d/tapper_reports_api_daemon /etc/init.d/
 	insserv tapper_reports_api_daemon
 	/etc/init.d/tapper_reports_api_daemon restart
@@ -622,7 +620,8 @@ web:
 # start scripts for web frontend
 #
 	@echo "########## start scripts for web frontend"
-	cp $(STARTERKITDIR)/apache2/conf.d/tapper_reports_web.conf /etc/apache2/conf.d/
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::Web
+	cp $(STARTERKITDIR)/etc/apache2/conf.d/tapper_reports_web.conf /etc/apache2/conf.d/
 	/etc/init.d/apache2 restart
 	@echo "We wait some seconds for the daemons to come up..."
 	sleep 5

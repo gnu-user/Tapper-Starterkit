@@ -540,6 +540,9 @@ perlpkgs:
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) File::Copy::Recursive
 	# fails sometimes in non-critical tests
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f Test::WWW::Mechanize
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) -f Test::WWW::Mechanize::Catalyst
+	# work around missing deps in HTML::FormFu
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f IO::Interactive
 	# missing dependency in T::R::Web 3.0.5
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Testplan
 	# missing dependency in T::R::Web
@@ -631,7 +634,7 @@ web:
 # start scripts for web frontend
 #
 	@echo "########## start scripts for web frontend"
-	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Reports::Web
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) Tapper::Reports::Web
 	cp $(STARTERKITDIR)/etc/apache2/conf.d/tapper_reports_web.conf /etc/apache2/conf.d/
 	/etc/init.d/apache2 restart
 	@echo "We wait some seconds for the daemons to come up..."

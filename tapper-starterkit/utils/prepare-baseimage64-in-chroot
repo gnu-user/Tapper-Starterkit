@@ -25,6 +25,7 @@ apt-get --yes --allow-unauthenticated install perl-modules
 apt-get --yes --allow-unauthenticated install openssh-server
 apt-get --yes --allow-unauthenticated install nfs-common
 apt-get --yes --allow-unauthenticated install lshw
+apt-get --yes --allow-unauthenticated install grub-legacy
 
 # dependencies for Perl libs
 apt-get --yes --allow-unauthenticated install expect
@@ -79,6 +80,9 @@ insserv tapper
 mkdir -p /mnt/target
 mkdir -p /mnt/guests
 mkdir -p /data/tapper
+
+# workaround early ::Installer bug, can be dropped later
+mkdir -p /boot/grub
 
 # copy basic Log4Perl config
 cp /tmp/tapper-starterkit/etc/log4perl.cfg /etc/log4perl.cfg

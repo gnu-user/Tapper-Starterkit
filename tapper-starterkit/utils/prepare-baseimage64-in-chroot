@@ -3,6 +3,10 @@
 # for parallel builds
 export CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
 
+# deactivate udev
+insserv -r udev-mtab
+insserv -r udev
+
 # setup locales
 apt-get --yes --allow-unauthenticated install locales
 echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
@@ -81,3 +85,9 @@ cp /tmp/tapper-starterkit/etc/log4perl.cfg /etc/log4perl.cfg
 
 # don't set a hostname to trigger getting it dynamically on boot
 rm /etc/hostname
+
+# create devices
+cp /tmp/tapper-starterkit/misc/MAKEDEV /dev/MAKEDEV
+chmod +x /dev/MAKEDEV
+cd /dev
+./MAKEDEV generic

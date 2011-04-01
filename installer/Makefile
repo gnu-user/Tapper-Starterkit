@@ -697,6 +697,11 @@ testreport: receiver
 	@echo "*** You should now be able to view reports here:"
 	@echo "    http://$(TAPPER_SERVER)/tapper"
 
+testquery: receiver
+# test report
+	@echo "*** The following output comes from the query interface"
+	cat $(STARTERKITDIR)/misc/starterkit.query | netcat -q5 -w5 $(TAPPER_SERVER)
+
 localsetup: workingdirs dependencies \
             tapperconfig \
             libdeps optperl perlpkgs \

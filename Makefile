@@ -10,6 +10,8 @@ EXAMPLEFILES = $(STARTERKIT)/etc/log4perl.cfg \
                $(STARTERKIT)/misc/MAKEDEV \
                $(STARTERKIT)/misc/CPAN-Config.pm \
                $(STARTERKIT)/misc/starterkit.tap \
+               $(STARTERKIT)/misc/starterkit.query \
+               $(STARTERKIT)/misc/starterkit.query.mas \
                $(STARTERKIT)/misc/disable_useless_consoles.patch \
                $(STARTERKIT)/utils/prepare-installer-nfsroot-in-chroot \
                $(STARTERKIT)/utils/prepare-baseimage64-in-chroot \

@@ -630,7 +630,7 @@ tapperconfig:
 	IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
 	perl -i -pne "s/__TAPPER_HOST_IP__/$$IP/g" /etc/tapper.cfg ;
 
-receiver: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
+receiver: workingdirs dependencies tapperconfig libdeps optperl
 #
 # start scripts for reports-receiver
 #
@@ -640,7 +640,7 @@ receiver: workingdirs dependencies databases examplemachines initialdata tapperc
 	insserv tapper_reports_receiver_daemon
 	/etc/init.d/tapper_reports_receiver_daemon restart
 
-api: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
+api: workingdirs dependencies tapperconfig libdeps optperl
 #
 # start scripts for reports-api
 #
@@ -650,7 +650,7 @@ api: workingdirs dependencies databases examplemachines initialdata tapperconfig
 	insserv tapper_reports_api_daemon
 	/etc/init.d/tapper_reports_api_daemon restart
 
-mcp: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
+mcp: workingdirs dependencies tapperconfig libdeps optperl
 #
 # start scripts for MCP
 #
@@ -661,7 +661,7 @@ mcp: workingdirs dependencies databases examplemachines initialdata tapperconfig
 	insserv tapper_mcp_daemon
 	/etc/init.d/tapper_mcp_daemon restart
 
-web: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
+web: workingdirs dependencies tapperconfig libdeps optperl
 #
 # start scripts for web frontend
 #

@@ -1,8 +1,5 @@
 #! /bin/bash
 
-# for parallel builds
-export CPUCOUNT=`cat /proc/cpuinfo | grep vendor_id | wc -l`
-
 # deactivate udev
 insserv -r udev-mtab
 insserv -r udev
@@ -48,30 +45,6 @@ apt-get --yes --allow-unauthenticated install libexpat1-dev
 
 # set default password
 echo "root:tapper" | chpasswd
-
-# Install Perl
-cd /tmp
-export PERLVERSION=5.12.3
-export PERLBREW_ROOT=/opt/tapper/perl
-mkdir -p $PERLBREW_ROOT
-curl -LO http://xrl.us/perlbrew
-chmod +x perlbrew
-./perlbrew install
-/opt/tapper/perl/bin/perlbrew init
-echo ". /opt/tapper/perl/etc/bashrc" >> $HOME/.bashrc
-. /opt/tapper/perl/etc/bashrc
-perlbrew install -j ${CPUCOUNT} perl-${PERLVERSION}
-perlbrew switch perl-${PERLVERSION}
-
-# CPAN config
-cp /tmp/tapper-starterkit/misc/CPAN-Config.pm /opt/tapper/perl/perls/perl-${PERLVERSION}/lib/${PERLVERSION}/CPAN/Config.pm
-export TWMC_TEST_PORT=9876
-export PERL_AUTOINSTALL="--defaultdeps"
-export TEST_JOBS=${CPUCOUNT}
-export CPAN=/opt/tapper/perl/perls/current/bin/cpan
-echo "reload index" | $CPAN
-$CPAN LWP
-$CPAN Expect
 
 # default start script for PRC
 cp /tmp/tapper-starterkit/etc/init.d/tapper.baseimage /etc/init.d/tapper

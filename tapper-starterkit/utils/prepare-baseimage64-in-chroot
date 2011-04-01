@@ -22,6 +22,7 @@ apt-get --yes --allow-unauthenticated install curl
 apt-get --yes --allow-unauthenticated install make
 apt-get --yes --allow-unauthenticated install gcc
 apt-get --yes --allow-unauthenticated install less
+apt-get --yes --allow-unauthenticated install python
 apt-get --yes --allow-unauthenticated install perl-modules
 apt-get --yes --allow-unauthenticated install openssh-server
 apt-get --yes --allow-unauthenticated install nfs-common

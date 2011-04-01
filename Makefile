@@ -4,6 +4,7 @@ EXAMPLEFILES = $(STARTERKIT)/etc/log4perl.cfg \
                $(STARTERKIT)/etc/init.d/tapper_reports_receiver_daemon \
                $(STARTERKIT)/etc/init.d/tapper_reports_api_daemon \
                $(STARTERKIT)/etc/init.d/tapper \
+               $(STARTERKIT)/etc/init.d/tapper.baseimage \
                $(STARTERKIT)/etc/dhcp.conf \
                $(STARTERKIT)/etc/tapper.cfg \
                $(STARTERKIT)/misc/MAKEDEV \

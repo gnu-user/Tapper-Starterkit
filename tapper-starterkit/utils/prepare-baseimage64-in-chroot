@@ -75,7 +75,8 @@ $CPAN Expect
 
 # the actual Tapper::Installer
 $CPAN Tapper::Installer
-cp /opt/tapper/perl/perls/current/bin/tapper-installer-client.pl /etc/init.d/tapper
+cp /tmp/tapper-starterkit/etc/init.d/tapper.baseimage /etc/init.d/tapper
+perl -i -pne "s/__TAPPER_HOST__/$$IP/g" /etc/init.d/tapper
 chmod +x /etc/init.d/tapper
 insserv tapper
 

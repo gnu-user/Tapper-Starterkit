@@ -159,7 +159,7 @@ clean:
 	-umount $(CLIENTPKG64CHROOT)/dev/pts
 	-rm -fr $(CLEANFILES)
 
-nfsrootclean:
+cleannfsroot:
 	-umount $(INSTALLERCHROOT)/sys
 	-umount $(INSTALLERCHROOT)/proc
 	-umount $(INSTALLERCHROOT)/dev/pts
@@ -171,7 +171,7 @@ nfsrootclean:
 	-umount $(CLIENTPKG64CHROOT)/dev/pts
 	-rm -fr $(NFSROOTCLEANFILES)
 
-localclean:
+cleanlocal:
 	@echo "########## Remove local machine setup"
 	-$(APTGET) remove --purge expect-dev
 	-$(APTGET) remove --purge expect
@@ -190,7 +190,7 @@ localclean:
 	-$(APTGET) autoremove
 	-rm -fr $(LOCALCLEANFILES)
 
-localcleandb:
+cleandb:
 	-echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p
 
 mrproper: clean localclean localcleandb nfsrootclean

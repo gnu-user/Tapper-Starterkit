@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# show IP addressed of all active network cards for debugging in virtualized guests.
+/sbin/ifconfig
+
+# needed for NFS on some images
+if [[ -e /etc/init.d/portmap ]]
+then
+	/etc/init.d/portmap start
+fi
+
+# work around slow upcoming network on some machines
+for(( i=0; i<10; i++)) 
+do
+    ping -c1 __TAPPER_HOST__ > /dev/null && break
+    echo "wait for network available..."
+    sleep 2
+done
+
+PERLBIN="/opt/tapper/perl/perls/current/bin"
+${PERLBIN}/perl ${PERLBIN}/tapper-automatic-test.pl

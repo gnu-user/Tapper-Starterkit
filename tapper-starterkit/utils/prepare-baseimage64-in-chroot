@@ -73,8 +73,7 @@ echo "reload index" | $CPAN
 $CPAN LWP
 $CPAN Expect
 
-# the actual Tapper::Installer
-$CPAN Tapper::Installer
+# default start script for PRC
 cp /tmp/tapper-starterkit/etc/init.d/tapper.baseimage /etc/init.d/tapper
 perl -i -pne "s/__TAPPER_HOST__/$$IP/g" /etc/init.d/tapper
 chmod +x /etc/init.d/tapper

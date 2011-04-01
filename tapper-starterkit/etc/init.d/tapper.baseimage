@@ -1,5 +1,17 @@
 #!/bin/bash
 
+### BEGIN INIT INFO
+# Provides:          TAPPER_PRC
+# Required-Start:    $syslog $remote_fs $all
+# Should-Start: $time ypbind smtp
+# Required-Stop:     $syslog $remote_fs
+# Should-Stop: $time ypbind smtp
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: TAPPER_PRC Tapper program run control
+# Description:       Start TAPPER_PRC to setup machine
+### END INIT INFO
+
 # show IP addressed of all active network cards for debugging in virtualized guests.
 /sbin/ifconfig
 

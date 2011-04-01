@@ -593,8 +593,8 @@ examplemachines:
 # Add known test machines
 #
 	@echo "########## Add known test machines"
-	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE1)
-	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE2)
+	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE1) --active
+	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE2) --active
 #
 # Add machine features (no public frontend tool available)
 #
@@ -610,6 +610,17 @@ examplemachines:
 	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),  'vendor', 'Intel');" | mysql testrundb -utapper -ptapper
 	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'), 'has_ecc',       0);" | mysql testrundb -utapper -ptapper
 
+initialdata:
+#
+# Add some initial data to have a better looking webgui
+#
+	@echo "########## Add machine features"
+	-echo "insert into user (name, login)  values ('Tapper Default User', 'tapper');" | mysql testrundb -utapper -ptapper
+	-echo "insert into topic (name, description)  values ('Misc', 'What does not fit into other topics');" | mysql testrundb -utapper -ptapper
+	-echo "insert into topic (name, description)  values ('Software', 'Non-kernel software, like libraries, programs');" | mysql testrundb -utapper -ptapper
+	-echo "insert into topic (name, description)  values ('Benchmark', 'Collection of values');" | mysql testrundb -utapper -ptapper
+	-echo "insert into topic (name, description)  values ('Distribution', 'OS or Compiler distribution');" | mysql testrundb -utapper -ptapper
+
 tapperconfig:
 #
 # Install Tapper config
@@ -619,7 +630,7 @@ tapperconfig:
 	IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
 	perl -i -pne "s/__TAPPER_HOST_IP__/$$IP/g" /etc/tapper.cfg ;
 
-receiver: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
+receiver: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
 #
 # start scripts for reports-receiver
 #
@@ -629,7 +640,7 @@ receiver: workingdirs dependencies databases tapperconfig libdeps optperl perlpk
 	insserv tapper_reports_receiver_daemon
 	/etc/init.d/tapper_reports_receiver_daemon restart
 
-api: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
+api: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
 #
 # start scripts for reports-api
 #
@@ -639,7 +650,7 @@ api: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs ex
 	insserv tapper_reports_api_daemon
 	/etc/init.d/tapper_reports_api_daemon restart
 
-mcp: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
+mcp: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
 #
 # start scripts for MCP
 #
@@ -650,7 +661,7 @@ mcp: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs ex
 	insserv tapper_mcp_daemon
 	/etc/init.d/tapper_mcp_daemon restart
 
-web: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs examplemachines
+web: workingdirs dependencies databases examplemachines initialdata tapperconfig libdeps optperl perlpkgs
 #
 # start scripts for web frontend
 #

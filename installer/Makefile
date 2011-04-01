@@ -191,7 +191,7 @@ cleanlocal:
 	-rm -fr $(LOCALCLEANFILES)
 
 cleandb:
-	-echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p
+	-echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p$${MYSQL_ROOT_PW}
 
 mrproper: clean localclean localcleandb nfsrootclean
 	-rm -fr $(CLIENTPKG64FILE)
@@ -582,7 +582,7 @@ databases:
                grant all on reportsdb.* to tapper@'%'; \
                create database testrundb;\
                grant all on testrundb.* to tapper@'%';" | \
-	mysql -uroot -p
+	mysql -uroot -p$${MYSQL_ROOT_PW}
 	-yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db ReportsDB
 	-yes | $(PERL) $(PERLBIN)/tapper-db-deploy init --db TestrunDB
 	@echo "(Newqueue fails if already exists. Ignore.)"

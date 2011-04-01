@@ -561,6 +561,8 @@ perlpkgs:
 	#PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) -f Test::WWW::Mechanize::Catalyst
 	# work around missing deps in HTML::FormFu
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f IO::Interactive
+	# work around bug in Tapper::Config 3.0.4
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TAPPER_CONFIG_FILE=lib/auto/Tapper/Config/tapper.yml $(CPAN) Tapper::Config
 	# missing dependency in T::R::Web 3.0.5
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Testplan
 	# missing dependency in T::R::Web

@@ -48,6 +48,8 @@ TAPPERUTILSDIR  = $(DATATAPPER)/live/repository/packages/tapperutils
 TESTPROGRAMDIR  = $(DATATAPPER)/live/testprogram
 # auto-generated configs
 CONFIGSDIR      = $(DATATAPPER)/live/configs
+# complete use-case specfiles
+USECASEDIR      = $(CONFIGSDIR)/use_cases
 # grub configs via TFTP
 TFTPBOOTDIR     = $(DATATAPPER)/live/configs/tftpboot
 # sync'ing interdependent tests
@@ -654,6 +656,8 @@ web: workingdirs dependencies databases tapperconfig libdeps optperl perlpkgs ex
 #
 	@echo "########## start scripts for web frontend"
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) Tapper::Reports::Web
+	cp $(STARTERKITDIR)/etc/usecases/kernel_build.mpc $(USECASEDIR)/
+	cp $(STARTERKITDIR)/etc/usecases/testsuites.yml   $(USECASEDIR)/
 	cp $(STARTERKITDIR)/etc/apache2/conf.d/tapper_reports_web.conf /etc/apache2/conf.d/
 	/etc/init.d/apache2 restart
 	@echo "We wait some seconds for the daemons to come up..."

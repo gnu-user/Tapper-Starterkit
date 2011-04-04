@@ -634,6 +634,7 @@ initialdata:
 #
 	@echo "########## Add machine features"
 	-echo "insert into user (name, login)  values ('Tapper Default User', 'tapper');" | mysql testrundb -utapper -ptapper
+	-echo "insert into user (name, login)  values ('A Typical Tapper User', 'root');" | mysql testrundb -utapper -ptapper
 	-echo "insert into topic (name, description)  values ('Misc', 'What does not fit into other topics');" | mysql testrundb -utapper -ptapper
 	-echo "insert into topic (name, description)  values ('Software', 'Non-kernel software, like libraries, programs');" | mysql testrundb -utapper -ptapper
 	-echo "insert into topic (name, description)  values ('Benchmark', 'Collection of values');" | mysql testrundb -utapper -ptapper

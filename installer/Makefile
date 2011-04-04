@@ -696,8 +696,8 @@ web: workingdirs dependencies tapperconfig libdeps optperl initialdata
 #
 	@echo "########## start scripts for web frontend"
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) Tapper::Reports::Web
-	cp $(STARTERKITDIR)/etc/usecases/kernel_build.mpc $(USECASEDIR)/
-	cp $(STARTERKITDIR)/etc/usecases/testsuites.yml   $(USECASEDIR)/
+	cp $(STARTERKITDIR)/usecases/kernel_build.mpc $(USECASEDIR)/
+	cp $(STARTERKITDIR)/usecases/tests.yml   $(USECASEDIR)/
 	cp $(STARTERKITDIR)/etc/apache2/conf.d/tapper_reports_web.conf /etc/apache2/conf.d/
 	/etc/init.d/apache2 restart
 	@echo "We wait some seconds for the daemons to come up..."

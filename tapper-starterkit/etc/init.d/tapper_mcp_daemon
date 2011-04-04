@@ -15,7 +15,7 @@
 # Note: Special treatment of stop for LSB conformance
 PERL=/opt/tapper/perl/perls/current/bin/perl
 TAPPER_MCP_BIN=/opt/tapper/perl/perls/current/bin/tapper-mcp-daemon
-test -f $TAPPER_MCP_BIN || { echo "$TAPPER_MCP_BIN not installed"; 
+test -f $TAPPER_MCP_BIN || { echo "$TAPPER_MCP_BIN not installed";
 	if [ "$1" = "stop" ]; then exit 0;
 	else exit 5; fi; }
 
@@ -23,9 +23,6 @@ test -f $TAPPER_MCP_BIN || { echo "$TAPPER_MCP_BIN not installed";
 case "$1" in
     start)
 	echo -n "Starting TAPPER_MCP "
-	export MX_DAEMON_STDOUT=/var/log/tapper_reports_api_daemon_stdout.log
-	export MX_DAEMON_STDERR=/var/log/tapper_reports_api_daemon_stderr.log
-	#export TAPPER_DEVELOPMENT=1
 	$PERL $TAPPER_MCP_BIN start
 	;;
     stop)

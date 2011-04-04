@@ -670,18 +670,27 @@ api: workingdirs dependencies tapperconfig libdeps optperl
 	insserv tapper_reports_api_daemon
 	/etc/init.d/tapper_reports_api_daemon restart
 
-mcp: workingdirs dependencies tapperconfig libdeps optperl
+mcp: workingdirs dependencies tapperconfig libdeps optperl examplemachines initialdata
 #
 # start scripts for MCP
 #
 	@echo "########## start scripts for MCP"
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::MCP
-	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::MCP::MessageReceiver
 	cp $(STARTERKITDIR)/etc/init.d/tapper_mcp_daemon /etc/init.d/
 	insserv tapper_mcp_daemon
 	/etc/init.d/tapper_mcp_daemon restart
 
-web: workingdirs dependencies tapperconfig libdeps optperl
+mcpmsgreceiver: workingdirs dependencies tapperconfig libdeps optperl
+#
+# start scripts for MCP Message Receiver
+#
+	@echo "########## start scripts for MCP Message Receiver"
+	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::MCP::MessageReceiver
+	cp $(STARTERKITDIR)/etc/init.d/tapper_mcp_msg_receiver_daemon /etc/init.d/
+	insserv tapper_mcp_msg_receiver_daemon
+	/etc/init.d/tapper_mcp_msg_receiver_daemon restart
+
+web: workingdirs dependencies tapperconfig libdeps optperl initialdata
 #
 # start scripts for web frontend
 #
@@ -729,7 +738,7 @@ localsetup: workingdirs dependencies \
             receiver web api \
             testreport \
             nfsserver tftpserver \
-            mcp
+            mcp mcpmsgreceiver
 	@echo "**************************************************"
 	@echo "*"
 	@echo "* Installation done."

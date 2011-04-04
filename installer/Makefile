@@ -638,8 +638,8 @@ tapperconfig:
 	@echo "########## Install Tapper config"
 	cp $(STARTERKITDIR)/etc/tapper.cfg /etc/
 	# dynamically write local IP in tapper.cfg
-	IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
-	perl -i -pne "s/__TAPPER_HOST_IP__/$$IP/g" /etc/tapper.cfg ;
+	export IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
+	  perl -i -pne 'my $$ip=$$ENV{IP}; s/__TAPPER_HOST_IP__/$$ip/g' /etc/tapper.cfg
 
 receiver: workingdirs dependencies tapperconfig libdeps optperl
 #

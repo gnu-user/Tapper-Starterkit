@@ -190,6 +190,15 @@ cleanlocal:
 	-$(APTGET) autoremove
 	-rm -fr $(LOCALCLEANFILES)
 
+cleanbaseimage64chroot:
+	-umount $(BASEIMAGE64CHROOT)/sys
+	-umount $(BASEIMAGE64CHROOT)/proc
+	-umount $(BASEIMAGE64CHROOT)/dev/pts
+	-rm -fr $(BASEIMAGE64CHROOT)
+
+cleanbaseimage64file:
+	-rm -fr $(BASEIMAGE64FILE)
+
 cleandb:
 	-echo "drop database testrundb; drop database reportsdb; drop user tapper;" | mysql -uroot -p$${MYSQL_ROOT_PW}
 

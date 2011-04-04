@@ -89,6 +89,7 @@ CLIENTPKG32CHROOTPREPARE=prepare-clientpkg32-in-chroot
 TAPPER_SERVER=tapper
 TESTMACHINE1=johnconnor
 TESTMACHINE2=sarahconnor
+TESTMACHINE3=bullock
 
 ### Perl setup
 ### if version changed, also change it in the *CHROOTPREPARE scripts
@@ -606,6 +607,7 @@ examplemachines:
 	@echo "########## Add known test machines"
 	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE1) --active
 	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE2) --active
+	-$(PERL) $(PERLBIN)/tapper-testrun newhost --name $(TESTMACHINE3) --active
 #
 # Add machine features (no public frontend tool available)
 #
@@ -615,11 +617,16 @@ examplemachines:
 	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),   'cores',     4);" | mysql testrundb -utapper -ptapper
 	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'),  'vendor', 'AMD');" | mysql testrundb -utapper -ptapper
 	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE1)'), 'has_ecc',     1);" | mysql testrundb -utapper -ptapper
-# machine1
-	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),     'mem',    2048);" | mysql testrundb -utapper -ptapper
-	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),   'cores',       2);" | mysql testrundb -utapper -ptapper
-	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),  'vendor', 'Intel');" | mysql testrundb -utapper -ptapper
-	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'), 'has_ecc',       0);" | mysql testrundb -utapper -ptapper
+# machine2
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),     'mem',  2048);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),   'cores',     2);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'),  'vendor', 'AMD');" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE2)'), 'has_ecc',     0);" | mysql testrundb -utapper -ptapper
+# machine3
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE3)'),     'mem',  2048);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE3)'),   'cores',     2);" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE3)'),  'vendor', 'AMD');" | mysql testrundb -utapper -ptapper
+	-echo "insert into host_feature(host_id, entry, value)  values ((select id from host where name = '$(TESTMACHINE3)'), 'has_ecc',     0);" | mysql testrundb -utapper -ptapper
 
 initialdata:
 #

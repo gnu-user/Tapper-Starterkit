@@ -232,10 +232,10 @@ $(STARTERKITDIR)/etc/log4perl.cfg:
 	$(APTGET) update
 	$(APTGET) install debootstrap
 	$(APTGET) install patch
+	$(APTGET) install makepatch
 	$(APTGET) install curl
 	$(APTGET) install wget
 	$(APTGET) install rsync
-	$(APTGET) install patch
 	$(APTGET) install gcc
 	$(APTGET) install perl-modules
 	curl -z$(TMP)/$(STARTERKIT) -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)

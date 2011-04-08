@@ -22,6 +22,7 @@ tar xzf tapper-starterkit.tgz
 # some utils
 apt-get --yes --allow-unauthenticated install pciutils
 apt-get --yes --allow-unauthenticated install patch
+apt-get --yes --allow-unauthenticated install makepatch
 apt-get --yes --allow-unauthenticated install curl
 apt-get --yes --allow-unauthenticated install make
 apt-get --yes --allow-unauthenticated install gcc

@@ -57,8 +57,8 @@ SYNCDIR         = $(DATATAPPER)/live/sync
 # network bootable OS image
 NFSROOTDIR      = $(DATATAPPER)/live/nfsroot
 
-#DEBIANMIRROR=http://ftp.de.debian.org/debian/
-DEBIANMIRROR=http://alzey/debian/
+DEBIANMIRROR ?= http://ftp.de.debian.org/debian/
+#DEBIANMIRROR=http://alzey/debian/
 
 # installer NFS root
 # 64bit always

@@ -498,7 +498,7 @@ workingdirs: $(WORKDIRS)
 
 baseimage64file: baseimage64chroot workingdirs $(BASEIMAGE64FILE)
 
-$(BASEIMAGE64FILE):
+$(BASEIMAGE64FILE): $(BASEIMAGE64CHROOT)/etc/log4perl.cfg
 #
 # Pack baseimage64
 #

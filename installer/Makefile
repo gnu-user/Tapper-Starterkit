@@ -533,9 +533,9 @@ nfsserver:
 #
 	@echo "########## Install an NFS server and export $(DATATAPPER)"
 	$(APTGET) install nfs-kernel-server
-	# find out IP in a clever way, hopefully not too clever...
+	-# find out IP in a clever way, hopefully not too clever...
 	for IP in $$(ip addr | awk '/inet / {print $$2}'); do echo "$(DATATAPPER) $$IP(fsid=0,no_root_squash,no_subtree_check,rw,insecure) 192.168.1.0/255.255.255.0(fsid=0,no_root_squash,no_subtree_check,rw)" >> /etc/exports ; done
-	# later append: 192.168.1.0/255.255.255.0(fsid=0,no_root_squash,no_subtree_check,rw)
+	-# later append: 192.168.1.0/255.255.255.0(fsid=0,no_root_squash,no_subtree_check,rw)
 	/etc/init.d/nfs-kernel-server restart
 
 libdeps:
@@ -562,22 +562,22 @@ perlpkgs:
 # Prepare CPAN libs
 #
 	@echo "########## Prepare CPAN libs"
-	# File::Slurp 9999.14 from 22 Mar 2011 introduced silly test bug, force install.
+	-# File::Slurp 9999.14 from 22 Mar 2011 introduced silly test bug, force install.
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f File::Slurp
-	# work around forgotten dependency in T::R::Web 3.0.4
+	-# work around forgotten dependency in T::R::Web 3.0.4
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) File::Copy::Recursive
-	# fails sometimes in non-critical tests
+	-# fails sometimes in non-critical tests
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f Test::WWW::Mechanize
-	#PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) -f Test::WWW::Mechanize::Catalyst
-	# work around missing deps in HTML::FormFu
+	-#PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TWMC_TEST_PORT=9876 $(CPAN) -f Test::WWW::Mechanize::Catalyst
+	-# work around missing deps in HTML::FormFu
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) -f IO::Interactive
-	# work around bug in Tapper::Config 3.0.4
+	-# work around bug in Tapper::Config 3.0.4
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) TAPPER_CONFIG_FILE=lib/auto/Tapper/Config/tapper.yml $(CPAN) Tapper::Config
-	# missing dependency in T::R::Web 3.0.5
+	-# missing dependency in T::R::Web 3.0.5
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) Tapper::Testplan
-	# missing dependency in T::R::Web
+	-# missing dependency in T::R::Web
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) TAP::Parser
-	# non problematic rest
+	-# non problematic rest
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBI
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::mysql
 	PERL_AUTOINSTALL="--defaultdeps" TEST_JOBS=$(CPUCOUNT) $(CPAN) DBD::SQLite
@@ -645,7 +645,7 @@ tapperconfig:
 # Install Tapper config
 	@echo "########## Install Tapper config"
 	cp $(STARTERKITDIR)/etc/tapper.cfg /etc/
-	# dynamically write local IP in tapper.cfg
+	-# dynamically write local IP in tapper.cfg
 	export IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
 	  perl -i -pne 'my $$ip=$$ENV{IP}; s/__TAPPER_HOST_IP__/$$ip/g' /etc/tapper.cfg
 
@@ -709,7 +709,7 @@ tftpserver:
 #
 	@echo "########## Install an NFS server and export $(DATATAPPER)"
 	$(APTGET) install atftpd
-	# symlink Debian specific dir to keep all files in our central data dir
+	-# symlink Debian specific dir to keep all files in our central data dir
 	-rm -rf /srv/tftp
 	-ln -sf $(TFTPBOOTDIR) /srv/tftp
 	-ln -s $(TFTPBOOTDIR) $(TFTPBOOTDIR)/tftpboot

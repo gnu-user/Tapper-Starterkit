@@ -53,7 +53,8 @@ echo "root:tapper" | chpasswd
 
 # default start script for PRC
 cp /tmp/tapper-starterkit/etc/init.d/tapper.baseimage /etc/init.d/tapper
-perl -i -pne "s/__TAPPER_HOST__/$$IP/g" /etc/init.d/tapper
+export IP=$(ip addr | awk '/inet / {print $2}'|grep -v 127.0.0|cut -d/ -f1)
+perl -i -pne "s/__TAPPER_HOST__/$IP/g" /etc/init.d/tapper     # $IP is the env variable substituted by shell
 chmod +x /etc/init.d/tapper
 insserv tapper
 

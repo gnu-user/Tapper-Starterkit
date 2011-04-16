@@ -6,7 +6,7 @@ Debian/Squeeze.
 
 * Download frontend makefile:
 
-  $ curl -L http://xrl.us/tapperstarterkit -o Makefile
+  $ curl -k -L http://xrl.us/tapperstarterkit -o Makefile
 
 * Run installation:
 

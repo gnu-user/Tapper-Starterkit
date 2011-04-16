@@ -54,7 +54,7 @@ cd /tmp
 export PERLVERSION=5.12.3
 export PERLBREW_ROOT=/opt/tapper/perl
 mkdir -p $PERLBREW_ROOT
-curl -LO http://xrl.us/perlbrew
+curl -k -LO http://xrl.us/perlbrew
 chmod +x perlbrew
 ./perlbrew install
 /opt/tapper/perl/bin/perlbrew init

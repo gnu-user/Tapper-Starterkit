@@ -238,7 +238,7 @@ $(STARTERKITDIR)/etc/log4perl.cfg:
 	$(APTGET) install rsync
 	$(APTGET) install gcc
 	$(APTGET) install perl-modules
-	curl -z$(TMP)/$(STARTERKIT) -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)
+	curl -k -z$(TMP)/$(STARTERKIT) -L $(STARTERKITURL) -o $(TMP)/$(STARTERKIT)
 	cd $(TMP) ; tar xzf $(STARTERKIT)
 
 

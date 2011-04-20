@@ -20,6 +20,19 @@ packages and much more. Only for setting up the automation you will
 need some manual DHCP config and console and hardware reset
 installation.
 
+* Alternatively without the automation:
+
+  $ make localsetup
+
+That's recommended for easier starting - it sets up the local reports
+framework, consisting of the reports receiver, the reports evaluation
+api and the web gui.
+
+                                 ***
+
+Whenever you need help, ask us in the mailing list or irc channel.
+
+
 About Tapper
 ============
 

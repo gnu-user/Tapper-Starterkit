@@ -649,7 +649,9 @@ tapperconfig:
 	export IP=$$(ip addr | awk '/inet / {print $$2}'|grep -v 127.0.0|cut -d/ -f1) ; \
 	  perl -i -pne 'my $$ip=$$ENV{IP}; s/__TAPPER_HOST_IP__/$$ip/g' /etc/tapper.cfg
 
-receiver: workingdirs dependencies tapperconfig libdeps optperl
+receiver: workingdirs dependencies tapperconfig libdeps optperl /etc/init.d/tapper_reports_receiver_daemon
+
+/etc/init.d/tapper_reports_receiver_daemon:
 #
 # start scripts for reports-receiver
 #

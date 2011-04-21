@@ -86,7 +86,7 @@ CLIENTPKG32CHROOT=/mnt/chroot/squeeze-tapper-clientpkg32
 CLIENTPKG32CHROOTPREPARE=prepare-clientpkg32-in-chroot
 
 ### initial machine names
-TAPPER_SERVER=tapper
+TAPPER_SERVER?=tapper
 TESTMACHINE1=johnconnor
 TESTMACHINE2=sarahconnor
 TESTMACHINE3=bullock
